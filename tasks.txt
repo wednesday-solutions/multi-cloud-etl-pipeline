@@ -1,0 +1,41 @@
+# Task 1: Merging all the data in one dataframe/view
+
+# Task 2: Create new column 'COLOCATION'
+In this task create a new column "COLOCATION" such that if customer state == incident state ==
+agent state then 1 else 0. Then find the mean of this new created column
+
+# Task 3:
+In this task, if 'AUTHORITY_CONTACTED' is NOT 'Police' and 'POLICE_REPORT_AVAILABLE' == 1 
+then update 'AUTHORITY_CONTACTED' to 'Police'.
+
+# Task 4: Create new column 'CLAIM_DEVIATION'
+Create a new column 'CLAIM_DEVIATION' with the formula:
+value = (avg claim amount for last 30 days in same insurance type) / (current claim amount)
+if value < 0.5 then CLAIM_DEVIATION = 1 else 0
+if there is less than 30 days of transaction history for the insurance type 
+then CLAIM_DEVIAION = -1
+Also note that, the last 30 days does not include current day
+
+# Task 5: Apply discount & increments in claim amount
+Mobile & Travel Insurance premium are discounted by 10%
+Health and Property Insurance premium are increased by 7%
+Life and Motor Insurance premium are marginally increased by 2%
+
+# Task 6: Create new column 'ELIGIBLE_FOR_DISCOUNT' 
+Create a new column 'ELIGIBLE_FOR_DISCOUNT' using the following criteria:
+if customer_tenure > 60 and employment_status = 'N' and no_of_family_members >= 4 
+then 1 else 0
+
+# Task 7: Create new column 'CLAIM_VELOCITY'
+Create new column 'CLAIM_VELOCITY' with the following formula:
+claim_velocity = (no of claims in last 30 days for the same insurance type) / (no of claims in last 3
+days for the same insurance type)
+Also note that, last 30 days & last 3 days does NOT include current day
+
+# Task 8: Find all suspicious employees (agents)
+An employee (i.e. agent) is suspicious if: 
+1. claim status = approved
+2. customer risk segmentation = high
+3. incident severity = major loss
+4. claim amount >= 15000
+make a new column suspicious, 1 if conditions met else 0.
