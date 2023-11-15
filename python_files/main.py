@@ -42,7 +42,7 @@ print("Output:", result.stdout)
 # COMMAND ----------
 
 # unzip data in rawdata container
-command = "unzip /dbfs/mnt/zipdata/insurance-claims-fraud-data.zip -d /dbfs/mnt/rawdata/"
+command = "unzip -o /dbfs/mnt/zipdata/insurance-claims-fraud-data.zip -d /dbfs/mnt/rawdata/"
 result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 print("Output:", result.stdout)
 
