@@ -1,7 +1,9 @@
-kaggle_username = "vighneshchavan"
+import os
 
-kaggle_token = "29a03b17ed5854ab26cc349914c50f63"
+kaggle_username = os.environ['kaggle_username']
 
-storage_account_name = "insuranceclaims"
+kaggle_token = os.environ['kaggle_token']
 
-datalake_access_key = "5MawnIQUmchME5C1svaL2XJQf2EGWNSanSmrCGwe83GLvZd83579z+JjpF5kH5X9ivh2i7SBsyTw+AStyviNLw=="
+storage_account_name = os.environ['storage_account_name']
+
+datalake_access_key = os.environ['datalake_access_key']
