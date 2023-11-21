@@ -1,0 +1,27 @@
+name: Run Python Script
+
+on:
+  workflow_dispatch:
+
+env:
+  kaggle_username: ${{ secrets.KAGGLE_USERNAME }}
+  kaggle_token: ${{ secrets.KAGGLE_TOKEN }}
+  storage_account_name: ${{ secrets.STORAGE_ACCCOUNT_NAME }}
+  datalake_access_key: ${{ secrets.DATALAKE_ACCESS_KEY }}
+
+jobs:
+  run-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Run Python Script
+        run: |
+          pip install kaggle
+          python configs.py
