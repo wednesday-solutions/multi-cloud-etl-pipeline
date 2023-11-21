@@ -24,4 +24,4 @@ jobs:
       - name: Run Python Script
         run: |
           pip install kaggle
-          python configs.py
+          python python_files/configs.py
