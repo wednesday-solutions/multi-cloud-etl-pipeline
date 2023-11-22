@@ -1,22 +1,18 @@
 # Databricks notebook source
-import SparkWrapper as sw
-import connect_databricks as cd
+
 import os
 
-kaggle_username = dbutils.widgets.get('kaggle_username')
+os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
 
-kaggle_token = dbutils.widgets.get('kaggle_token')
+os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
 
-storage_account_name = dbutils.widgets.get('storage_account_name')
+os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
 
-datalake_access_key = dbutils.widgets.get('datalake_access_key')
+os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
 
 # COMMAND ----------
-
-# assigning kaggle environmet keys
-os.environ['KAGGLE_USERNAME'] = kaggle_username
-os.environ['KAGGLE_KEY'] = kaggle_token
-
+import SparkWrapper as sw
+import connect_databricks as cd
 
 # COMMAND ----------
 
