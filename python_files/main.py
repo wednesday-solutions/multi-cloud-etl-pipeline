@@ -14,8 +14,8 @@ datalake_access_key = dbutils.widgets.get('datalake_access_key')
 # COMMAND ----------
 
 # assigning kaggle environmet keys
-os.environ['KAGGLE_USERNAME'] = configs.kaggle_username
-os.environ['KAGGLE_KEY'] = configs.kaggle_token
+os.environ['KAGGLE_USERNAME'] = kaggle_username
+os.environ['KAGGLE_KEY'] = kaggle_token
 
 
 # COMMAND ----------
