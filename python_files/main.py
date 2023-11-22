@@ -13,7 +13,7 @@ os.environ['KAGGLE_KEY'] = configs.kaggle_token
 
 # COMMAND ----------
 
-# # Uncomment below line when running locally
+# # Uncomment below line when running azure databicks (local only)
 # spark, dbutils = cd.init_databricks()
 
 # COMMAND ----------

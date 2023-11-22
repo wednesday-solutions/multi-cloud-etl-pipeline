@@ -1,9 +1,9 @@
 import os
 
-kaggle_username = os.environ['kaggle_username']
+kaggle_username = dbutils.widgets.get('kaggle_username')
 
-kaggle_token = os.environ['kaggle_token']
+kaggle_token = dbutils.widgets.get('kaggle_token')
 
-storage_account_name = os.environ['storage_account_name']
+storage_account_name = dbutils.widgets.get('storage_account_name')
 
-datalake_access_key = os.environ['datalake_access_key']
+datalake_access_key = dbutils.widgets.get('datalake_access_key')
