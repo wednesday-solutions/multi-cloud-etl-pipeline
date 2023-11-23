@@ -9,7 +9,10 @@ def create_frame(sc: SparkSession, path: str):
 
 
 def rename_columns(df: DataFrame, names: dict) -> DataFrame:
-    return df.withColumnsRenamed(names)
+    renamed_df = df
+    for old_col, new_col in names.items():
+        renamed_df = renamed_df.withColumnRenamed(old_col, new_col)
+    return renamed_df
 
 
 def value_counts(df: DataFrame, column: str) -> DataFrame:
