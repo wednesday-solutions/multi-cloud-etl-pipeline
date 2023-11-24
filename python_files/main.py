@@ -199,7 +199,7 @@ print("Task 8 Done")
 # COMMAND ----------
 
 # finally writting the data in transformed container
-df.write.csv('/dbfs/mnt/transformed/final_data.csv', header=True, mode="overwrite")
+df.coalesce(1).write.csv('/dbfs/mnt/transformed/final_data.csv', header=True, mode="overwrite")
 
 # COMMAND ----------
 
