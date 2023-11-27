@@ -6,7 +6,7 @@ def extract_from_kaggle(flag: bool):
     if flag:
         zip_path = "/dbfs/mnt/zipdata/"
         read_path = "/dbfs/mnt/rawdata/"
-        write_path = "/dbfs/mnt/transformed/"
+        write_path = "/mnt/transformed/"
     else:
         zip_path = "/"
         read_path = "temp/"
@@ -28,7 +28,10 @@ def extract_from_kaggle(flag: bool):
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     print("Output:", result.stdout)
 
-    if flag==False:
+    if flag:
+        zip_data = zip_data[5:]
+        read_path = read_path[5:]
+    else:
         read_path = "s3://glue-bucket-vighnesh/rawdata/"
 
     return read_path, write_path
