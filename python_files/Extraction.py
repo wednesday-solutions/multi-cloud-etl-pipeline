@@ -4,9 +4,9 @@ import os
 
 def extract_from_kaggle(flag: bool):
     if flag:
-        zip_path = "/mnt/zipdata/"
-        read_path = "/mnt/rawdata/"
-        write_path = "/mnt/transformed/"
+        zip_path = "/dbfs/mnt/zipdata/"
+        read_path = "/dbfs/mnt/rawdata/"
+        write_path = "/dbfs/mnt/transformed/"
     else:
         zip_path = "/"
         read_path = "temp/"
