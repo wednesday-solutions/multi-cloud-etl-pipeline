@@ -53,13 +53,10 @@ import subprocess
 
 read_path, write_path = extract_from_kaggle(flag)
 
-if flag:
-    copy_command = f"cp -r temp/ {read_path}"
-else:
+if flag==False:
     copy_command = f"aws s3 cp temp/ {read_path} --recursive"
-
-result = subprocess.run(copy_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-print("Output:", result.stdout)
+    result = subprocess.run(copy_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    print("Output:", result.stdout)
 
 # COMMAND ----------
 
