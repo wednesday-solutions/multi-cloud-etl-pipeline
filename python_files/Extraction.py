@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 
 def extract_from_kaggle(flag: bool):
@@ -7,13 +8,11 @@ def extract_from_kaggle(flag: bool):
         read_path = "/mnt/rawdata/"
         write_path = "/mnt/transformed/"
     else:
-        zip_path = "temp/"
-        read_path = "temp2"
+        zip_path = "/"
+        read_path = "temp/"
         write_path = "s3://glue-bucket-vighnesh/transformed/"
 
-    command = "pip install kaggle"
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    print("Output:", result.stdout)
+    os.system('pip install kaggle')
 
     # COMMAND ----------
 
