@@ -9,21 +9,30 @@ except:
     load_dotenv()
     flag = os.environ['FLAG']
 
+if flag == 'True':
+    flag = True
+else:
+    flag = False
+
 if flag:
     os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
 
     os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
 
-	os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
+    os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
 
-	os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
+    os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
 else:
 	pass
 
 # COMMAND ----------
 import SparkWrapper as sw
-import connect_databricks as cd
-import connect_glue as cg
+from Extraction import extract_from_kaggle
+
+if flag:
+    import connect_databricks as cd
+else:
+    import connect_glue as cg
 
 # COMMAND ----------
 
@@ -44,9 +53,9 @@ import subprocess
 read_path, write_path = extract_from_kaggle(flag)
 
 if flag:
-	copy_command = f"aws s3 cp temp/ {read_path} --recursive"
+    copy_command = f"cp -r temp/ {read_path}"
 else:
-	copy_command = f"cp -r temp/ {read_path}"
+    copy_command = f"aws s3 cp temp/ {read_path} --recursive"
 
 result = subprocess.run(copy_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 print("Output:", result.stdout)
@@ -126,7 +135,7 @@ sub = sub.withColumn('MIN_TXN_DATE_TIME', F.min('TXN_DATE_TIME').over(window_pre
 
 sub = sub.withColumn('DAYS_WITH_HISTORY', F.datediff(F.from_unixtime('TXN_DATE_TIME'), F.from_unixtime('MIN_TXN_DATE_TIME')))
 
-sub = sub.withColumn('DEVIATION', F.round(F.ifnull(F.col('AVG_30DAYS_CLAIM_AMOUNT'), F.lit(0)) / F.col('CLAIM_AMOUNT'), 2))
+sub = sub.withColumn('DEVIATION', F.round(F.coalesce(F.col('AVG_30DAYS_CLAIM_AMOUNT'), F.lit(0)) / F.col('CLAIM_AMOUNT'), 2))
 
 
 cond1 = ((F.col('DAYS_WITH_HISTORY') >= 30) & (F.col('DEVIATION') < 0.5))
