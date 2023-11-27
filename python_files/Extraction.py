@@ -9,7 +9,7 @@ def extract_from_kaggle(flag: bool):
     # COMMAND ----------
 
     # downloading dataset zip file in zipdata container
-    command = "kaggle datasets download -d mastmustu/insurance-claims-fraud-data"
+    command = "mkdir -p temp/ && kaggle datasets download -d mastmustu/insurance-claims-fraud-data -p temp/"
     try:
         result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         print("Output:", result.stdout)
