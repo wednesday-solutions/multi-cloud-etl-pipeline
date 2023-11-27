@@ -10,8 +10,12 @@ def extract_from_kaggle(flag: bool):
 
     # downloading dataset zip file in zipdata container
     command = "kaggle datasets download -d mastmustu/insurance-claims-fraud-data"
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    print("Output:", result.stdout)
+    try:
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print("Output:", result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("Error:", e)
+        print("Error Output:", e.stderr)
 
     # COMMAND ----------
 
@@ -21,10 +25,10 @@ def extract_from_kaggle(flag: bool):
     print("Output:", result.stdout)
 
     if flag:
-        read_path = "s3://glue-bucket-vighnesh/rawdata/"
-        write_path = "s3://glue-bucket-vighnesh/transformed/"
-    else:
         read_path = "/mnt/rawdata/"
         write_path = "/mnt/transformed/"
+    else:
+        read_path = "s3://glue-bucket-vighnesh/rawdata/"
+        write_path = "s3://glue-bucket-vighnesh/transformed/"
 
     return read_path, write_path
