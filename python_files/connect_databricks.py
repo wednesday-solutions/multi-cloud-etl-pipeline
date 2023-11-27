@@ -25,6 +25,7 @@ def create_mount(dbutils, container_name, mount_path):
             extra_configs = {f'fs.azure.account.key.{storage_name}.blob.core.windows.net': storage_key})
             print(f"{mount_path} Mount Successfull")
         else:
+            dbutils.fs.refreshMounts()
             print(f"{mount_path} Already mounted")
     except Exception as e:
         print(f"{mount_path} Error: " + e)
