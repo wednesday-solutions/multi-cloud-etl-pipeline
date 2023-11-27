@@ -29,7 +29,7 @@ def extract_from_kaggle(flag: bool):
     print("Output:", result.stdout)
 
     if flag:
-        zip_data = zip_data[5:]
+        zip_path = zip_path[5:]
         read_path = read_path[5:]
     else:
         read_path = "s3://glue-bucket-vighnesh/rawdata/"
