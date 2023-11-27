@@ -8,7 +8,7 @@ def extract_from_kaggle(flag: bool):
         read_path = "/dbfs/mnt/rawdata/"
         write_path = "/mnt/transformed/"
     else:
-        zip_path = "/"
+        zip_path = "temp-zip/"
         read_path = "temp/"
         write_path = "s3://glue-bucket-vighnesh/transformed/"
 
@@ -17,14 +17,14 @@ def extract_from_kaggle(flag: bool):
     # COMMAND ----------
 
     # downloading dataset zip file in zipdata container
-    command = f"kaggle datasets download -d mastmustu/insurance-claims-fraud-data -p {zip_path}"
+    command = f'kaggle datasets download -d mastmustu/insurance-claims-fraud-data -p {zip_path}'
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     print("Output:", result.stdout)
 
     # COMMAND ----------
 
     # unzip data in rawdata container
-    command = f"unzip -o {zip_path}/insurance-claims-fraud-data.zip -d {read_path}"
+    command = f"unzip -o {zip_path}insurance-claims-fraud-data.zip -d {read_path}"
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     print("Output:", result.stdout)
 
