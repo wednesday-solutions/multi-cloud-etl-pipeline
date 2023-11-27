@@ -1,66 +1,68 @@
 # Databricks notebook source
-
 import os
+from dotenv import load_dotenv
 
-os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
+# COMMAND ----------
+try:
+    flag = dbutils.widgets.get('flag')
+except:
+    load_dotenv()
+    flag = os.environ['FLAG']
 
-os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
+if flag:
+    os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
 
-os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
+    os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
 
-os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
+	os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
+
+	os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
+else:
+	pass
 
 # COMMAND ----------
 import SparkWrapper as sw
 import connect_databricks as cd
+import connect_glue as cg
 
 # COMMAND ----------
 
-# # Uncomment below line when running azure databicks (local only)
-# spark, dbutils = cd.init_databricks()
-
-# COMMAND ----------
-
-# creating mounts
-cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
-cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
-cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
+if flag:
+	# creating mounts
+	cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
+	cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
+	cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
+else:
+	# initiating glue spark
+	glueContext, spark, job = cg.init_glue()
+	job.init("sample")
 
 # COMMAND ----------
 
 import subprocess
 
-command = "pip install kaggle"
-result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-print("Output:", result.stdout)
+read_path, write_path = extract_from_kaggle(flag)
 
+if flag:
+	copy_command = f"aws s3 cp temp/ {read_path} --recursive"
+else:
+	copy_command = f"cp -r temp/ {read_path}"
 
-# COMMAND ----------
-
-# downloading dataset zip file in zipdata container
-command = "kaggle datasets download -d mastmustu/insurance-claims-fraud-data -p /dbfs/mnt/zipdata/"
-result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-print("Output:", result.stdout)
-
-# COMMAND ----------
-
-# unzip data in rawdata container
-command = "unzip -o /dbfs/mnt/zipdata/insurance-claims-fraud-data.zip -d /dbfs/mnt/rawdata/"
-result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+result = subprocess.run(copy_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 print("Output:", result.stdout)
 
 # COMMAND ----------
 
 # reading data in different frames
 
-employee = sw.create_frame(spark, '/mnt/rawdata/employee_data.csv')
+employee = sw.create_frame(spark, read_path + 'employee_data.csv')
             
 employee = sw.rename_columns(employee, {'ADDRESS_LINE1': 'AGENT_ADDRESS_LINE1', 'ADDRESS_LINE2': 'AGENT_ADDRESS_LINE2',\
                  'CITY': 'AGENT_CITY', 'STATE': 'AGENT_STATE', 'POSTAL_CODE': 'AGENT_POSTAL_CODE'})
 
 # COMMAND ----------
 
-insurance = sw.create_frame(spark, '/mnt/rawdata/insurance_data.csv')
+insurance = sw.create_frame(spark, read_path + 'insurance_data.csv')
             
 insurance = sw.rename_columns(insurance, {'ADDRESS_LINE1': 'CUSTOMER_ADDRESS_LINE1', \
     'ADDRESS_LINE2': 'CUSTOMER_ADDRESS_LINE2', 'CITY': 'CUSTOMER_CITY', 'STATE': 'CUSTOMER_STATE', \
@@ -68,7 +70,7 @@ insurance = sw.rename_columns(insurance, {'ADDRESS_LINE1': 'CUSTOMER_ADDRESS_LIN
 
 # COMMAND ----------
 
-vendor = sw.create_frame(spark, '/mnt/rawdata/vendor_data.csv')
+vendor = sw.create_frame(spark, read_path + 'vendor_data.csv')
             
 vendor = sw.rename_columns(vendor, {'ADDRESS_LINE1': 'VENDOR_ADDRESS_LINE1', 'ADDRESS_LINE2': 'VENDOR_ADDRESS_LINE2', \
                 'CITY': 'VENDOR_CITY', 'STATE': 'VENDOR_STATE', 'POSTAL_CODE': 'VENDOR_POSTAL_CODE'})
@@ -199,10 +201,8 @@ print("Task 8 Done")
 # COMMAND ----------
 
 # finally writting the data in transformed container
-df.coalesce(1).write.csv('/dbfs/mnt/transformed/final_data.csv', header=True, mode="overwrite")
+df.coalesce(1).write.csv(write_path + 'final_data.csv', header=True, mode="overwrite")
 
 # COMMAND ----------
 
 print("Execution Complete")
-
-
