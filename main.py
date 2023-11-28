@@ -5,10 +5,10 @@ from dotenv import load_dotenv
 
 # COMMAND ----------
 try:
-    import connect_databricks as cd
+    import app.connect_databricks as cd
     flag = dbutils.widgets.get('flag')
 except:
-    import connect_glue as cg
+    import app.connect_glue as cg
     from awsglue.utils import getResolvedOptions
     import sys
     
@@ -54,8 +54,8 @@ if flag:
     os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
 
 # COMMAND ----------
-import SparkWrapper as sw
-from Extraction import extract_from_kaggle
+import app.SparkWrapper as sw
+from app.Extraction import extract_from_kaggle
 
 # COMMAND ----------
 

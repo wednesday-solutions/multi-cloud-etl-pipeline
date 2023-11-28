@@ -1,4 +1,4 @@
-import configs
+import app.configs as configs
 
 from databricks.connect import DatabricksSession
 from databricks.sdk import WorkspaceClient
