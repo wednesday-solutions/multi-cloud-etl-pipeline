@@ -5,17 +5,46 @@ from dotenv import load_dotenv
 
 # COMMAND ----------
 try:
+    import connect_databricks as cd
     flag = dbutils.widgets.get('flag')
 except:
-    load_dotenv()
-    flag = os.environ['FLAG']
+    import connect_glue as cg
+    from awsglue.utils import getResolvedOptions
+    import sys
+    
+    # initiating glue spark
+    try:
+        args = getResolvedOptions(sys.argv, ['JOB_NAME', 'KAGGLE_USERNAME', 'KAGGGLE_KEY', 'FLAG'])
+    except Exception as e:
+        print(f"ERROR: {e}")
+        args = {'JOB_NAME': 'local'}
+
+    glueContext, spark, job = cg.init_glue()
+    job.init("sample")
+    if args['JOB_NAME'] == 'local':
+        load_dotenv()
+        flag = os.environ['FLAG']
+    else:
+        flag = args['FLAG']
+        os.environ['KAGGLE_USERNAME'] = args['KAGGLE_USERNAME']
+        os.environ['KAGGLE_KEY'] = args['KAGGLE_KEY']
+
+
+# COMMAND ----------
 
 if flag == 'True':
     flag = True
 else:
     flag = False
 
+# COMMAND ----------
+
 if flag:
+    # creating mounts
+    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
+    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
+    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
+
     os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
 
     os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
@@ -23,29 +52,10 @@ if flag:
     os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
 
     os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
-else:
-	pass
 
 # COMMAND ----------
 import SparkWrapper as sw
 from Extraction import extract_from_kaggle
-
-if flag:
-    import connect_databricks as cd
-else:
-    import connect_glue as cg
-
-# COMMAND ----------
-
-if flag:
-	# creating mounts
-	cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
-	cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
-	cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
-else:
-	# initiating glue spark
-	glueContext, spark, job = cg.init_glue()
-	job.init("sample")
 
 # COMMAND ----------
 
@@ -212,4 +222,8 @@ df.coalesce(1).write.csv(write_path + 'final_data.csv', header=True, mode="overw
 
 # COMMAND ----------
 
+if flag==False:
+    job.commit()
+
 print("Execution Complete")
+
