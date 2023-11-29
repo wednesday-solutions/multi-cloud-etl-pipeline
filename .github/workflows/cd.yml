@@ -27,11 +27,20 @@ jobs:
                 python3 setup.py bdist_wheel
 
             # Step 1: Copy script to S3 bucket
-            # - name: Copy script to S3 bucket
-            #   uses: jakejarvis/s3-sync-action@v0.5.0
-            #   with:
-            #     args: --follow-symlinks
-            #   env:
-            #     SOURCE_DIR: "main.py"
-            #     DEST_DIR: $S3_SCRIPTS_PATH
-            #     AWS_S3_BUCKET: $S3_BUCKET_NAME
+            - name: Copy script to S3 bucket
+              uses: jakejarvis/s3-sync-action@v0.5.0
+              with:
+                args: --follow-symlinks
+              env:
+                SOURCE_DIR: "main.py"
+                DEST_DIR: $S3_SCRIPTS_PATH
+                AWS_S3_BUCKET: $S3_BUCKET_NAME
+
+            - name: Copy script to S3 bucket
+              uses: jakejarvis/s3-sync-action@v0.5.0
+              with:
+                args: --follow-symlinks
+              env:
+                SOURCE_DIR: "dist/app-0.9-py3-none-any.whl"
+                DEST_DIR: $S3_SCRIPTS_PATH
+                AWS_S3_BUCKET: $S3_BUCKET_NAME
