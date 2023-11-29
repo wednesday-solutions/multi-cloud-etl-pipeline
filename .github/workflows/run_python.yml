@@ -33,8 +33,8 @@ jobs:
 
       - name: Download Dataset from Kaggle
         run: |
-          kaggle datasets download -d mastmustu/insurance-claims-fraud-data
-          unzip -q insurance-claims-fraud-data.zip -d dataset
+          kaggle datasets download -d mastmustu/insurance-claims-fraud-data -p temp
+          unzip -q temp/insurance-claims-fraud-data.zip -d dataset
 
       - name: Upload to S3
         uses: shallwefootball/s3-upload-action@v1.3.3
