@@ -36,3 +36,7 @@ jobs:
                 DEST_DIR: $S3_SCRIPTS_PATH
                 AWS_S3_BUCKET: $S3_BUCKET_NAME
 
+
+            - name: Upload Script file to S3
+              run: aws s3 cp ./main.py "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/"
+
