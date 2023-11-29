@@ -19,7 +19,6 @@ def extract_from_kaggle(flag: bool):
     api.dataset_download_cli("mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path)
 
     if flag:
-        zip_path = zip_path[5:]
         read_path = read_path[5:]
     else:
         read_path = "s3://glue-bucket-vighnesh/rawdata/"
