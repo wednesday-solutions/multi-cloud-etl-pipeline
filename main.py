@@ -20,10 +20,6 @@ else:
 # COMMAND ----------
 
 if flag:
-    # creating mounts
-    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
-    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
-    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
 
     os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
 
@@ -37,6 +33,12 @@ if flag:
 # COMMAND ----------
 if flag:
     import app.connect_databricks as cd
+
+    # creating mounts
+    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
+    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
+    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
+    
 else:
     import app.connect_glue as cg
     from awsglue.utils import getResolvedOptions
