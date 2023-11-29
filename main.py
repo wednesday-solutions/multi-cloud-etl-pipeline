@@ -4,10 +4,40 @@ os.system('pip install python-dotenv')
 from dotenv import load_dotenv
 
 # COMMAND ----------
+
 try:
-    import app.connect_databricks as cd
     flag = dbutils.widgets.get('flag')
 except:
+    flag = 'False'
+
+
+if flag == 'True':
+    flag = True
+else:
+    flag = False
+
+
+# COMMAND ----------
+
+if flag:
+    # creating mounts
+    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
+    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
+    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
+
+    os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
+
+    os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
+
+    os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
+
+    os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
+
+
+# COMMAND ----------
+if flag:
+    import app.connect_databricks as cd
+else:
     import app.connect_glue as cg
     from awsglue.utils import getResolvedOptions
     import sys
@@ -30,28 +60,6 @@ except:
         os.environ['KAGGLE_KEY'] = args['KAGGLE_KEY']
 
 
-# COMMAND ----------
-
-if flag == 'True':
-    flag = True
-else:
-    flag = False
-
-# COMMAND ----------
-
-if flag:
-    # creating mounts
-    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
-    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
-    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
-
-    os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
-
-    os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
-
-    os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
-
-    os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
 
 # COMMAND ----------
 import app.SparkWrapper as sw
