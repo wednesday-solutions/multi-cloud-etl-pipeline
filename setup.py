@@ -1,7 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
-    name="app", #Name
-    version="1.0", #Version
-    packages = find_packages()  # Automatically find the packages that are recognized in the '__init__.py'.
+    packages=["app"],
+    name="app",
+    version="0.9",
+    install_requires=[]
 )
