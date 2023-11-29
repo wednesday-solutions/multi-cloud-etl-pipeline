@@ -38,5 +38,5 @@ jobs:
 
 
             - name: Upload Script file to S3
-              run: aws s3 cp ./main.py "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/"
+              run: aws s3 cp ./main.py "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/" --region ap-south-1
 
