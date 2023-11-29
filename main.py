@@ -14,7 +14,7 @@ except:
     
     # initiating glue spark
     try:
-        args = getResolvedOptions(sys.argv, ['JOB_NAME', 'KAGGLE_USERNAME', 'KAGGGLE_KEY', 'FLAG'])
+        args = getResolvedOptions(sys.argv, ['JOB_NAME', 'KAGGLE_USERNAME', 'KAGGLE_KEY', 'FLAG'])
     except Exception as e:
         print(f"ERROR: {e}")
         args = {'JOB_NAME': 'local'}
