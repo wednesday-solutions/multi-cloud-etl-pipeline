@@ -1,7 +1,9 @@
 name: Data Engineering - Deploy to AWS Glue
 
 on:
-    workflow-dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
     deploy:
