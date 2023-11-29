@@ -1,27 +1,46 @@
-name: Run Python Script
+name: Download and Upload to S3
 
 on:
   workflow_dispatch:
 
-env:
-  kaggle_username: ${{ secrets.KAGGLE_USERNAME }}
-  kaggle_token: ${{ secrets.KAGGLE_TOKEN }}
-  storage_account_name: ${{ secrets.STORAGE_ACCCOUNT_NAME }}
-  datalake_access_key: ${{ secrets.DATALAKE_ACCESS_KEY }}
-
 jobs:
-  run-python:
+  download_and_upload:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-          
-      - name: Run Python Script
+    env:
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Kaggle credentials
         run: |
-          pip install kaggle
-          python python_files/configs.py
+          mkdir -p ~/.kaggle
+          echo '{"username": "${KAGGLE_USERNAME}", "key": "${KAGGLE_KEY}"}' > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: 3.9
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install kaggle==1.5.16
+
+      - name: Download Dataset from Kaggle
+        run: |
+          kaggle datasets download -d mastmustu/insurance-claims-fraud-data -p temp
+          unzip -q temp/insurance-claims-fraud-data.zip -d dataset
+
+      - name: Upload to S3
+        uses: shallwefootball/s3-upload-action@v1.3.3
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: "glue-bucket-vighnesh"
+          source_dir: 'dataset'
+          
