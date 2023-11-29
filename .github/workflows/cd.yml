@@ -32,7 +32,7 @@ jobs:
               with:
                 args: --follow-symlinks
               env:
-                SOURCE_DIR: "main.py"
+                SOURCE_DIR: "./main.py"
                 DEST_DIR: $S3_SCRIPTS_PATH
                 AWS_S3_BUCKET: $S3_BUCKET_NAME
 
