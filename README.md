@@ -64,12 +64,12 @@ For deploy on Glue: configure your keys in Github secrets so that they can be ac
 
 Glue doens't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path".
 
-Step:
+Steps:
 
 1. Run ```pip install setuptools wheel```
 
 2. Then make a ```setup.py``` file, with the following demo code
-
+    ```
     from setuptools import setup
 
     setup(
@@ -78,6 +78,7 @@ Step:
         version="0.9",
         install_requires=[]
     )
+    ```
 
 3. Run ```python3 setup.py bdist_wheel``` for making the wheel file.
 
