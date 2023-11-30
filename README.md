@@ -19,7 +19,7 @@ To run the same ETL code in multiple cloud services based on your preference, th
 1. Clone this repo in your own repo.
 
 2. For local IDE: Open configs file and write your own keys & storage accout name.
-    For Databricks job: Configure job parameters, then call them using ```dbutils.widgets.get(param_name)```
+For Databricks job: Configure job parameters, then call them using ```dbutils.widgets.get(param_name)```
 
 3. Change your path for read & write in Extraction.py file, you can also change Extraction logic to use other sources.
 
@@ -41,7 +41,7 @@ If you do not meet the requirments given above, no worries, you can develop your
 
 ## Requirements for AWS Glue (local setup)
 
-- For Unix-based systems you can refer: [Data Enginnering Onboarding Starter](https://github.com/wednesday-solutions/Data-Engineering-Onboarding-Starter)
+- For Unix-based systems you can refer: [Data Enginnering Onboarding Starter Setup](https://github.com/wednesday-solutions/Data-Engineering-Onboarding-Starter#setup)
 
 - For Windows-based systems you can refer: [AWS Glue Developing using a Docker image](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html#develop-local-docker-image)
 
@@ -50,11 +50,11 @@ If you do not meet the requirments given above, no worries, you can develop your
 1. Clone this repo
 
 2. For local developemnt: use a .env file and write your keys in it.
-    For deploy on Glue: configure your keys in Github secrets so that they can be accessed in the actions.
+For deploy on Glue: configure your keys in Github secrets so that they can be accessed in the actions.
 
 3. Change your path for read & write in Extraction.py file, you can also change Extraction logic to use other sources.
 
-4. Just run you code using ```spark-submit main.py```
+4. Just run you code using ```spark-submit main.py``` for docker container or ```gluesparksubmit main.py``` for setup environment.
 
 5. Commit & push changes to Github.
 
@@ -62,5 +62,28 @@ If you do not meet the requirments given above, no worries, you can develop your
 
 ## IMP Note for AWS Glue
 
-Glue doens't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path". Refer [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
+Glue doens't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path".
+
+Step:
+
+1. Run ```pip install setuptools wheel```
+
+2. Then make a ```setup.py``` file, with the following demo code
+
+    from setuptools import setup
+
+    setup(
+        packages=["app"],
+        name="app",
+        version="0.9",
+        install_requires=[]
+    )
+
+3. Run ```python3 setup.py bdist_wheel``` for making the wheel file.
+
+4. You will have a wheel file generated in "dist" folder.
+
+5. Upload this wheel file in your S3 bucket then paste it's uri path in "Python Library path" in Glue Job details.
+
+Refer [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
     
