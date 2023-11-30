@@ -2,7 +2,7 @@
 
 ## Main Objective
 
-    To run the same ETL code in multiple cloud services based on your preference, thus saving time & to develop the ETL scripts for different environments & clouds.
+To run the same ETL code in multiple cloud services based on your preference, thus saving time & to develop the ETL scripts for different environments & clouds.
 
 ## Note
 
@@ -62,5 +62,5 @@ If you do not meet the requirments given above, no worries, you can develop your
 
 ## IMP Note for AWS Glue
 
-    Glue doens't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path". Refer [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
+Glue doens't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path". Refer [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
     
