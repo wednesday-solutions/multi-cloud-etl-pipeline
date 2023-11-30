@@ -62,7 +62,7 @@ For deploy on Glue: configure your keys in Github secrets so that they can be ac
 
 ## IMP Note for AWS Glue
 
-Glue doens't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path".
+Glue doesn't recognize other files except the job file (i.e. main.py) so you have to give your pacakage as a separate wheel file or zip file & provide it's S3 uri in "Python library path".
 
 Steps:
 
@@ -86,5 +86,5 @@ Steps:
 
 5. Upload this wheel file in your S3 bucket then paste it's uri path in "Python Library path" in Glue Job details.
 
-Refer [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
+Refer: [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
     
