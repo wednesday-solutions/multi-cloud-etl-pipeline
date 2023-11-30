@@ -1,10 +1,8 @@
-import app.configs as configs
-
 from databricks.connect import DatabricksSession
 from databricks.sdk import WorkspaceClient
 
-storage_name = configs.storage_account_name
-storage_key = configs.datalake_access_key
+storage_name = os.environ['storage_account_name']
+storage_key = os.environ['datalake_access_key']
 
 
 def init_databricks():
