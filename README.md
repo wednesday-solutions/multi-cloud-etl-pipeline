@@ -28,6 +28,7 @@ For Databricks job: Configure job parameters, then call them using ```dbutils.wi
         spark, dbutils = cd.init_databricks()
     ```
     This fucntions connects to your cloud running cluster.
+    Also note that the ```dbutils.widgets.get(param_name)``` method only works in databricks jobs, so for other environments you have to load the keys directly or use an abstraction method like ```load_env()```
    
 5. Just run on the local IDE to develop & test.
 
