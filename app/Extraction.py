@@ -12,8 +12,6 @@ def extract_from_kaggle(flag: bool):
         read_path = "temp/"
         write_path = "s3://glue-bucket-vighnesh/transformed/"
 
-    # COMMAND ----------
-
     api = kaggle.KaggleApi()
     api.authenticate()
     api.dataset_download_cli("mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path)
