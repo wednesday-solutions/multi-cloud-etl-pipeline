@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # COMMAND ----------
 
 try:
-    flag = dbutils.widgets.get('flag')
+    flag = dbutils.widgets.get('flag') # type: ignore
 except:
     flag = 'False'
 
@@ -21,13 +21,13 @@ else:
 
 if flag:
 
-    os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
+    os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username') # type: ignore
 
-    os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
+    os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token') # type: ignore
 
-    os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
+    os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name') # type: ignore
 
-    os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
+    os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key') # type: ignore
 
 
 # COMMAND ----------
@@ -38,9 +38,9 @@ if flag:
     # spark, dbutils = cd.init_databricks()
 
     # creating mounts
-    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
-    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
-    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
+    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/") # type: ignore
+    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/") # type: ignore
+    cd.create_mount(dbutils, "transformed", "/mnt/transformed/") # type: ignore
     
 else:
     import app.connect_glue as cg
