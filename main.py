@@ -34,6 +34,9 @@ if flag:
 if flag:
     import app.connect_databricks as cd
 
+    # # Uncomment below line if working in local ide (i.e. vscode, pycharm, etc)
+    # spark, dbutils = cd.init_databricks()
+
     # creating mounts
     cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
     cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
