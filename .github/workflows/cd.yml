@@ -32,15 +32,11 @@ jobs:
               with:
                 args: --follow-symlinks
               env:
-                SOURCE_DIR: "./main.py"
+                SOURCE_DIR: "dist"
                 DEST_DIR: $S3_SCRIPTS_PATH
                 AWS_S3_BUCKET: $S3_BUCKET_NAME
 
-            - name: Copy script to S3 bucket
-              uses: jakejarvis/s3-sync-action@v0.5.0
-              with:
-                args: --follow-symlinks
-              env:
-                SOURCE_DIR: "dist/app-0.9-py3-none-any.whl"
-                DEST_DIR: $S3_SCRIPTS_PATH
-                AWS_S3_BUCKET: $S3_BUCKET_NAME
+
+            - name: Upload Script file to S3
+              run: aws s3 cp ./main.py "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/" --region ap-south-1
+
