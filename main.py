@@ -9,7 +9,7 @@ try:
     import app.connect_databricks as cd
     import json
 
-    # # Uncomment below line if working in local ide (i.e. vscode, pycharm, etc)
+    # Comment the following line if running directly in cloud notebook
     spark, dbutils = cd.init_databricks()
 
     keys = json.load(open("/dbfs/mnt/config/keys.json"))
