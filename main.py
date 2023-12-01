@@ -7,11 +7,14 @@ from dotenv import load_dotenv
 
 try:
     import app.connect_databricks as cd
+    import json
 
     # # Uncomment below line if working in local ide (i.e. vscode, pycharm, etc)
     spark, dbutils = cd.init_databricks()
+
+    keys = json.load(open("/dbfs/mnt/config/keys.json"))
     
-    flag = dbutils.widgets.get('flag')
+    flag = keys['flag']
 except Exception as e:
     print("ERROR", e)
     flag = 'False'
@@ -27,13 +30,13 @@ else:
 
 if flag:
 
-    os.environ['KAGGLE_USERNAME'] = dbutils.widgets.get('kaggle_username')
+    os.environ['KAGGLE_USERNAME'] = keys['kaggle_username']
 
-    os.environ['KAGGLE_KEY'] = dbutils.widgets.get('kaggle_token')
+    os.environ['KAGGLE_KEY'] = keys['kaggle_token']
 
-    os.environ['storage_account_name'] = dbutils.widgets.get('storage_account_name')
+    os.environ['storage_account_name'] = keys['storage_account_name']
 
-    os.environ['datalake_access_key'] = dbutils.widgets.get('datalake_access_key')
+    os.environ['datalake_access_key'] = keys['datalake_access_key']
 
 
 # COMMAND ----------
