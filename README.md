@@ -30,6 +30,7 @@ For Databricks job: Add your parameters in a json file in a already mounted cont
     This fucntions connects to your cloud running cluster.
 
     Also you need to make a Databricks CLI profile, refer: [Configure Databricks Workspace CLI](https://www.youtube.com/watch?v=h4L064NfMV0&ab_channel=WafaStudies)
+    
     Also note that the ```keys.json``` file which i'm reading is in an already mounted container, so for other environments you have to load the keys directly or use an abstraction method like ```load_env()```
    
 5. Just run on the local IDE to develop & test.
