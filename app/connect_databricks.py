@@ -7,6 +7,8 @@ storage_key = os.environ['datalake_access_key']
 
 
 def init_databricks():
+    os.system('!cp /dbfs/mnt/config/databricks-connect.txt ~/.databrickscfg')
+
     spark = DatabricksSession.builder.getOrCreate()
 
     dbutils = WorkspaceClient().dbutils
