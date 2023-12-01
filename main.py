@@ -12,7 +12,8 @@ try:
     spark, dbutils = cd.init_databricks()
     
     flag = dbutils.widgets.get('flag')
-except:
+except Exception as e:
+    print("ERROR", e)
     flag = 'False'
 
 
