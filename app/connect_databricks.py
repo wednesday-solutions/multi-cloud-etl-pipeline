@@ -3,7 +3,7 @@ from databricks.connect import DatabricksSession
 from databricks.sdk import WorkspaceClient
 
 def init_databricks():
-    os.system('!cp /dbfs/mnt/config/databricks-connect.txt ~/.databrickscfg')
+    os.system('cp /dbfs/mnt/config/databricks-connect.txt ~/.databrickscfg')
 
     spark = DatabricksSession.builder.getOrCreate()
 
