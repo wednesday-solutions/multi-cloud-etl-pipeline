@@ -2,10 +2,6 @@ import os
 from databricks.connect import DatabricksSession
 from databricks.sdk import WorkspaceClient
 
-storage_name = os.environ['storage_account_name']
-storage_key = os.environ['datalake_access_key']
-
-
 def init_databricks():
     os.system('!cp /dbfs/mnt/config/databricks-connect.txt ~/.databrickscfg')
 
@@ -17,6 +13,9 @@ def init_databricks():
 
 
 def create_mount(dbutils, container_name, mount_path):
+    storage_name = os.environ['storage_account_name']
+    storage_key = os.environ['datalake_access_key']
+
     mounts = [x.mountPoint for x in dbutils.fs.mounts()]
     try:
         if mount_path not in [x.mountPoint for x in dbutils.fs.mounts()]:
