@@ -1,8 +1,7 @@
-import subprocess
 import os
 
 os.system("pip install kaggle")
-import kaggle
+import kaggle   # pylint: disable=wrong-import-position
 
 
 def extract_from_kaggle(flag: bool):
