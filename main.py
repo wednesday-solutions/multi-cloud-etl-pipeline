@@ -11,9 +11,7 @@ import app.SparkWrapper as sw
 from app.Extraction import extract_from_kaggle
 
 os.system("pip install python-dotenv")
-from dotenv import (
-    load_dotenv,
-)  # pylint: disable=wrong-import-position, disable=wrong-import-order
+import dotenv # pylint: disable=wrong-import-position, disable=wrong-import-order
 
 # COMMAND ----------
 
@@ -71,7 +69,7 @@ else:
     glueContext, spark, job = cg.init_glue()
     job.init("sample")
     if args["JOB_NAME"] == "local":
-        load_dotenv()
+        dotenv.load_dotenv()
         flag = os.environ["FLAG"]
     else:
         flag = args["FLAG"]
