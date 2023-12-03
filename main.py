@@ -11,22 +11,24 @@ import app.SparkWrapper as sw
 from app.Extraction import extract_from_kaggle
 
 os.system("pip install python-dotenv")
-from dotenv import load_dotenv # pylint: disable=wrong-import-position, disable=wrong-import-order
+from dotenv import (
+    load_dotenv,
+)  # pylint: disable=wrong-import-position, disable=wrong-import-order
 
 # COMMAND ----------
 
 try:
-    import app.connect_databricks as cd # pylint: disable=ungrouped-imports
+    import app.connect_databricks as cd  # pylint: disable=ungrouped-imports
     import json
 
     # Comment the following line if running directly in cloud notebook
     spark, dbutils = cd.init_databricks()
 
-    with open("/dbfs/mnt/config/keys.json", encoding='utf-8') as file:
+    with open("/dbfs/mnt/config/keys.json", encoding="utf-8") as file:
         keys = json.load(file)
 
     flag = keys["flag"]
-except: # pylint: disable=bare-except
+except:  # pylint: disable=bare-except
     flag = "False"
 
 
@@ -63,7 +65,7 @@ else:
         args = getResolvedOptions(
             sys.argv, ["JOB_NAME", "KAGGLE_USERNAME", "KAGGLE_KEY", "FLAG"]
         )
-    except: # pylint: disable=bare-except
+    except:  # pylint: disable=bare-except
         args = {"JOB_NAME": "local"}
 
     glueContext, spark, job = cg.init_glue()
@@ -80,7 +82,6 @@ else:
 # COMMAND ----------
 
 # COMMAND ----------
-
 
 
 read_path, write_path = extract_from_kaggle(flag)
@@ -226,6 +227,7 @@ print("Task 4 Done")
 # COMMAND ----------
 
 # task 5: apply discounts & increments in claim_amount
+
 
 def get_cond(type1, type2):
     return (col("INSURANCE_TYPE") == type1) | (col("INSURANCE_TYPE") == type2)

@@ -16,8 +16,12 @@ def rename_columns(df: DataFrame, names: dict) -> DataFrame:
 
 
 def value_counts(df: DataFrame, column: str) -> DataFrame:
-    return df.groupBy(column).count().orderBy('count', ascending=False)
+    return df.groupBy(column).count().orderBy("count", ascending=False)
 
 
-def make_window(partition: str, order: str, range_from: int, range_to: int) -> WindowSpec:
-        return Window.partitionBy(partition).orderBy(order).rangeBetween(range_from, range_to)
+def make_window(
+    partition: str, order: str, range_from: int, range_to: int
+) -> WindowSpec:
+    return (
+        Window.partitionBy(partition).orderBy(order).rangeBetween(range_from, range_to)
+    )

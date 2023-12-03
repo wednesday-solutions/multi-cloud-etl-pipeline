@@ -11,5 +11,5 @@ def init_glue():
     glueContext = GlueContext(sc)
     spark = glueContext.spark_session
     job = Job(glueContext)
-    
+
     return glueContext, spark, job

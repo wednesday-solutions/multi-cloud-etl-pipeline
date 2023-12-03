@@ -1,6 +1,7 @@
 import subprocess
 import os
-os.system('pip install kaggle')
+
+os.system("pip install kaggle")
 import kaggle
 
 
@@ -14,7 +15,9 @@ def extract_from_kaggle(flag: bool):
 
     api = kaggle.KaggleApi()
     api.authenticate()
-    api.dataset_download_cli("mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path)
+    api.dataset_download_cli(
+        "mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path
+    )
 
     if flag:
         read_path = read_path[5:]
