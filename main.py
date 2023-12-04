@@ -8,10 +8,9 @@ from pyspark.sql import Window
 import pyspark.sql.functions as F
 
 import app.SparkWrapper as sw
-from app.Extraction import extract_from_kaggle
 
 os.system("pip install python-dotenv")
-import dotenv # pylint: disable=wrong-import-position, disable=wrong-import-order
+import dotenv  # pylint: disable=wrong-import-position, disable=wrong-import-order
 
 # COMMAND ----------
 
@@ -70,17 +69,15 @@ else:
     job.init("sample")
     if args["JOB_NAME"] == "local":
         dotenv.load_dotenv()
-        flag = os.environ["FLAG"]
     else:
-        flag = args["FLAG"]
         os.environ["KAGGLE_USERNAME"] = args["KAGGLE_USERNAME"]
         os.environ["KAGGLE_KEY"] = args["KAGGLE_KEY"]
 
 
 # COMMAND ----------
+from app.Extraction import extract_from_kaggle  # pylint: disable=wrong-import-position
 
 # COMMAND ----------
-
 
 read_path, write_path = extract_from_kaggle(flag)
 
