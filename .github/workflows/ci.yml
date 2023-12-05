@@ -27,3 +27,6 @@ jobs:
 
             - name: Lint
               run: pylint app/ main.py setup.py
+
+            - name: Testing
+              run: python3 -m unittest discover -v -s app/tests
