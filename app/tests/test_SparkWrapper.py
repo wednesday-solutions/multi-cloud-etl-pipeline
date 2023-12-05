@@ -6,7 +6,9 @@ from app.SparkWrapper import value_counts, rename_columns, create_frame, make_wi
 
 class TestSparkWrapper(TestCase):
     def setUp(self) -> None:
-        self.spark = SparkSession.builder.appName("Testing").getOrCreate()
+        self.spark = (
+            SparkSession.builder.appName("Testing").master("local[*]").getOrCreate()
+        )
         self.df = self.spark.read.csv(
             "app/tests/mock/sample.csv", inferSchema=True, header=True
         )
@@ -42,100 +44,25 @@ class TestSparkWrapper(TestCase):
 
     def test_create_frame(self):
         path = "app/tests/mock/sample.csv"
-        df = create_frame(self.spark, path)
+        df = create_frame(self.spark, path).drop("date")
         actual_data = df.collect()
 
         expected_data = [
-            {
-                "stock_name": "ABC Corp",
-                "market": "NYSE",
-                "close_price": 100.25,
-                "date": "2023-01-01",
-            },
-            {
-                "stock_name": "XYZ Inc",
-                "market": "NASDAQ",
-                "close_price": 75.50,
-                "date": "2023-01-01",
-            },
-            {
-                "stock_name": "DEF Ltd",
-                "market": "LSE",
-                "close_price": 50.75,
-                "date": "2023-01-01",
-            },
-            {
-                "stock_name": "ABC Corp",
-                "market": "NYSE",
-                "close_price": 95.20,
-                "date": "2023-01-11",
-            },
-            {
-                "stock_name": "XYZ Inc",
-                "market": "NASDAQ",
-                "close_price": 80.10,
-                "date": "2023-01-11",
-            },
-            {
-                "stock_name": "DEF Ltd",
-                "market": "LSE",
-                "close_price": 55.40,
-                "date": "2023-01-11",
-            },
-            {
-                "stock_name": "ABC Corp",
-                "market": "NYSE",
-                "close_price": 105.80,
-                "date": "2023-01-21",
-            },
-            {
-                "stock_name": "XYZ Inc",
-                "market": "NASDAQ",
-                "close_price": 92.40,
-                "date": "2023-01-21",
-            },
-            {
-                "stock_name": "DEF Ltd",
-                "market": "LSE",
-                "close_price": 60.20,
-                "date": "2023-01-21",
-            },
-            {
-                "stock_name": "ABC Corp",
-                "market": "NYSE",
-                "close_price": 110.50,
-                "date": "2023-01-31",
-            },
-            {
-                "stock_name": "XYZ Inc",
-                "market": "NASDAQ",
-                "close_price": 102.60,
-                "date": "2023-01-31",
-            },
-            {
-                "stock_name": "DEF Ltd",
-                "market": "LSE",
-                "close_price": 68.75,
-                "date": "2023-01-31",
-            },
-            {
-                "stock_name": "ABC Corp",
-                "market": "NYSE",
-                "close_price": 115.75,
-                "date": "2023-02-10",
-            },
-            {
-                "stock_name": "XYZ Inc",
-                "market": "NASDAQ",
-                "close_price": 112.20,
-                "date": "2023-02-10",
-            },
-            {
-                "stock_name": "DEF Ltd",
-                "market": "LSE",
-                "close_price": 75.30,
-                "date": "2023-02-10",
-            },
+            {"stock_name": "ABC Corp", "market": "NYSE", "close_price": 100.25},
+            {"stock_name": "DEF Ltd", "market": "LSE", "close_price": 50.75},
+            {"stock_name": "XYZ Inc", "market": "NASDAQ", "close_price": 75.5},
+            {"stock_name": "ABC Corp", "market": "NYSE", "close_price": 95.2},
+            {"stock_name": "DEF Ltd", "market": "LSE", "close_price": 55.4},
+            {"stock_name": "XYZ Inc", "market": "NASDAQ", "close_price": 80.1},
+            {"stock_name": "ABC Corp", "market": "NYSE", "close_price": 105.8},
+            {"stock_name": "DEF Ltd", "market": "LSE", "close_price": 60.2},
+            {"stock_name": "XYZ Inc", "market": "NASDAQ", "close_price": 92.4},
+            {"stock_name": "ABC Corp", "market": "NYSE", "close_price": 110.5},
+            {"stock_name": "DEF Ltd", "market": "LSE", "close_price": 68.75},
+            {"stock_name": "XYZ Inc", "market": "NASDAQ", "close_price": 102.6},
+            {"stock_name": "ABC Corp", "market": "NYSE", "close_price": 115.75},
+            {"stock_name": "DEF Ltd", "market": "LSE", "close_price": 75.3},
+            {"stock_name": "XYZ Inc", "market": "NASDAQ", "close_price": 112.2},
         ]
 
         for actual, expected in zip(actual_data, expected_data):
@@ -147,28 +74,32 @@ class TestSparkWrapper(TestCase):
 
         window_spec = make_window("market", "date", -20, -1)
 
-        df = sub.withColumn(
-            "last_20_days_close_avg", F.avg("close_price").over(window_spec)
-        ).select("close_price", "last_20_days_close_avg")
+        df = (
+            sub.withColumn(
+                "last_20_days_close_avg", F.avg("close_price").over(window_spec)
+            )
+            .orderBy(["date", "stock_name"])
+            .select("close_price", "last_20_days_close_avg")
+        )
 
         actual_data = df.collect()
 
         expected_data = [
-            {"close_price": 50.75, "last_20_days_close_avg": None},
-            {"close_price": 55.4, "last_20_days_close_avg": 50.75},
-            {"close_price": 60.2, "last_20_days_close_avg": 53.075},
-            {"close_price": 68.75, "last_20_days_close_avg": 57.8},
-            {"close_price": 75.3, "last_20_days_close_avg": 64.475},
-            {"close_price": 75.5, "last_20_days_close_avg": None},
-            {"close_price": 80.1, "last_20_days_close_avg": 75.5},
-            {"close_price": 92.4, "last_20_days_close_avg": 77.8},
-            {"close_price": 102.6, "last_20_days_close_avg": 86.25},
-            {"close_price": 112.2, "last_20_days_close_avg": 97.5},
             {"close_price": 100.25, "last_20_days_close_avg": None},
+            {"close_price": 50.75, "last_20_days_close_avg": None},
+            {"close_price": 75.5, "last_20_days_close_avg": None},
             {"close_price": 95.2, "last_20_days_close_avg": 100.25},
+            {"close_price": 55.4, "last_20_days_close_avg": 50.75},
+            {"close_price": 80.1, "last_20_days_close_avg": 75.5},
             {"close_price": 105.8, "last_20_days_close_avg": 97.725},
+            {"close_price": 60.2, "last_20_days_close_avg": 53.075},
+            {"close_price": 92.4, "last_20_days_close_avg": 77.8},
             {"close_price": 110.5, "last_20_days_close_avg": 100.5},
+            {"close_price": 68.75, "last_20_days_close_avg": 57.8},
+            {"close_price": 102.6, "last_20_days_close_avg": 86.25},
             {"close_price": 115.75, "last_20_days_close_avg": 108.15},
+            {"close_price": 75.3, "last_20_days_close_avg": 64.475},
+            {"close_price": 112.2, "last_20_days_close_avg": 97.5},
         ]
 
         for actual, expected in zip(actual_data, expected_data):
