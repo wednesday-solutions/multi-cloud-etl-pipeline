@@ -20,7 +20,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                pip install mypy==1.7.1 pylint==3.0.2 pyspark==3.5.0
+                pip install mypy==1.7.1 pylint==3.0.2 pyspark==3.5.0 coverage
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
@@ -30,3 +30,6 @@ jobs:
 
             - name: Testing
               run: python3 -m unittest discover -v -s app/tests
+
+            - name: Test coverage report
+              run: coverage report
