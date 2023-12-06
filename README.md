@@ -96,6 +96,4 @@ Refer: [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/a
 
 To run tests in the root of the directory use:
 
-    ```
     python -m unittest discover -v -s app/tests
-    ```
