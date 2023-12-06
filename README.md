@@ -92,8 +92,9 @@ Steps:
 
 Refer: [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
 
-## Run Tests
+## Run Tests & Coverage Report
 
 To run tests in the root of the directory use:
 
-    python -m unittest discover -v -s app/tests
+    coverage run -m unittest discover -v -s app/tests
+    coverage report
