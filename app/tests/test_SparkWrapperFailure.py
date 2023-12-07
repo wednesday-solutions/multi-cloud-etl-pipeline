@@ -53,9 +53,7 @@ class TestSparkWrapper(TestCase):
             window_spec = make_window("market", "date", 5, 2)
             self.df.withColumn("literal_1", F.lit(1).over(window_spec))
 
-        expected_error_message = (
-            "The lower bound of a window frame must be less than or equal to the upper bound"
-        )
+        expected_error_message = "The lower bound of a window frame must be less than or equal to the upper bound"
         actual_error_message = str(context.exception)
         self.assertTrue(expected_error_message in actual_error_message)
 
