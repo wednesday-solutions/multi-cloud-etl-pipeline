@@ -1,7 +1,8 @@
+import re
 from unittest import TestCase
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-from pyspark.errors import exceptions as E
+from pyspark.sql import utils as U
 from app.SparkWrapper import value_counts, rename_columns, create_frame, make_window
 
 
@@ -20,38 +21,40 @@ class TestSparkWrapper(TestCase):
         super().tearDown()
 
     def test_value_counts_invalid_column(self):
-        with self.assertRaises(E.captured.AnalysisException) as context:
+        with self.assertRaises(U.AnalysisException) as context:
             value_counts(self.df, "nonexistent_column")
 
-        expected_error_message = "UNRESOLVED_COLUMN"
+        expected_error_message = re.compile("Column '.+' does not exist")
         actual_error_message = str(context.exception)
-        self.assertTrue(expected_error_message in actual_error_message)
+
+        self.assertTrue(expected_error_message.search(actual_error_message))
 
     def test_create_frame_invalid_path(self):
-        with self.assertRaises(E.captured.AnalysisException) as context:
+        with self.assertRaises(U.AnalysisException) as context:
             create_frame(self.spark, "nonexistent_path/sample.csv")
 
-        expected_error_message = "PATH_NOT_FOUND"
+        expected_error_message = "Path does not exist"
         actual_error_message = str(context.exception)
 
         self.assertTrue(expected_error_message in actual_error_message)
 
     def test_make_window_invalid_window_spec(self):
-        with self.assertRaises(E.captured.AnalysisException) as context:
+        with self.assertRaises(U.AnalysisException) as context:
             window_spec = make_window("invalid_column", "date", -20, -1)
             self.df.withColumn("literal_1", F.lit(1).over(window_spec))
 
-        expected_error_message = "UNRESOLVED_COLUMN"
+        expected_error_message = re.compile("Column '.+' does not exist")
         actual_error_message = str(context.exception)
-        self.assertTrue(expected_error_message in actual_error_message)
+
+        self.assertTrue(expected_error_message.search(actual_error_message))
 
     def test_make_window_invalid_range(self):
-        with self.assertRaises(E.captured.AnalysisException) as context:
+        with self.assertRaises(U.AnalysisException) as context:
             window_spec = make_window("market", "date", 5, 2)
             self.df.withColumn("literal_1", F.lit(1).over(window_spec))
 
         expected_error_message = (
-            "DATATYPE_MISMATCH.SPECIFIED_WINDOW_FRAME_WRONG_COMPARISON"
+            "The lower bound of a window frame must be less than or equal to the upper bound"
         )
         actual_error_message = str(context.exception)
         self.assertTrue(expected_error_message in actual_error_message)
