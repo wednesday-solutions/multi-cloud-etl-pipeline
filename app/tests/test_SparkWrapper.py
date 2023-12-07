@@ -7,7 +7,7 @@ from app.SparkWrapper import value_counts, rename_columns, create_frame, make_wi
 class TestSparkWrapper(TestCase):
     def setUp(self) -> None:
         self.spark = (
-            SparkSession.builder.appName("Testing").master("local[*]").getOrCreate()
+            SparkSession.builder.master("local").appName("Testing").getOrCreate()
         )
         self.df = self.spark.read.csv(
             "app/tests/mock/sample.csv", inferSchema=True, header=True
@@ -24,8 +24,8 @@ class TestSparkWrapper(TestCase):
 
         expected_data = [
             {"market": "NYSE", "count": 5},
-            {"market": "LSE", "count": 5},
             {"market": "NASDAQ", "count": 5},
+            {"market": "LSE", "count": 5},
         ]
 
         for actual, expected in zip(data, expected_data):
