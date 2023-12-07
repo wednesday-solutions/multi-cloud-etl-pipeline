@@ -98,3 +98,5 @@ To run tests in the root of the directory use:
 
     coverage run --source=app -m unittest discover -s app/tests/
     coverage report
+
+Note that awsglue libraries are not availabe to download, so use AWS Glue 4 Docker container.
