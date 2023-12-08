@@ -29,7 +29,7 @@ jobs:
               run: pylint app/ main.py setup.py  --output pylint-report.txt
 
             - name: Testing
-              run: coverage run --source=app -m unittest discover -s app/tests/ --omit=app/tests/test_connect_glue.py
+              run: coverage run --source=app --omit=app/tests/test_connect_glue.py -m unittest discover -s app/tests/
 
             - name: Test coverage report
               run: coverage xml
