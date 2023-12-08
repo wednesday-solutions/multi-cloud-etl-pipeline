@@ -26,13 +26,15 @@ jobs:
               run: mypy ./ --ignore-missing-imports
 
             - name: Lint
-              run: pylint app/ main.py setup.py  --output pylint-report.txt
+              run: pylint app tests main.py setup.py --output pylint-report.txt
 
             - name: Testing
               run: coverage run --source=app -m unittest discover -s tests
 
             - name: Test coverage report
-              run: coverage xml
+              run: |
+                coverage report
+                coverage xml
     
             - name: SonarQube Scan
               uses: sonarsource/sonarqube-scan-action@master
