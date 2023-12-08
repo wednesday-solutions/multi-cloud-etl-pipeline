@@ -19,16 +19,19 @@ To run the same ETL code in multiple cloud services based on your preference, th
 1. Clone this repo in your own repo.
 
 2. For local IDE: Open configs file and write your own keys & storage accout name.
-For Databricks job: Configure job parameters, then call them using ```dbutils.widgets.get(param_name)```
+For Databricks job: Add your parameters in a json file in a already mounted container, then read it in a dictionary.
 
 3. Change your path for read & write in Extraction.py file, you can also change Extraction logic to use other sources.
 
-4. (Optional) If you are connecting local IDE then uncomment the following line in the main file:
+4. (Optional) If you are NOT connecting local IDE then comment the following line in the main file:
     ```
         spark, dbutils = cd.init_databricks()
     ```
     This fucntions connects to your cloud running cluster.
-    Also note that the ```dbutils.widgets.get(param_name)``` method only works in databricks jobs, so for other environments you have to load the keys directly or use an abstraction method like ```load_env()```
+
+    Also you need to make a Databricks CLI profile, refer: [Configure Databricks Workspace CLI](https://www.youtube.com/watch?v=h4L064NfMV0&ab_channel=WafaStudies)
+    
+    Also note that the ```keys.json``` file which i'm reading is in an already mounted container, so for other environments you have to load the keys directly or use an abstraction method like ```load_env()```
    
 5. Just run on the local IDE to develop & test.
 
@@ -88,4 +91,12 @@ Steps:
 5. Upload this wheel file in your S3 bucket then paste it's uri path in "Python Library path" in Glue Job details.
 
 Refer: [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
-    
+
+## Run Tests & Coverage Report
+
+To run tests in the root of the directory use:
+
+    coverage run --source=app -m unittest discover -s app/tests/
+    coverage report
+
+Note that awsglue libraries are not availabe to download, so use AWS Glue 4 Docker container.

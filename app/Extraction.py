@@ -1,11 +1,12 @@
-import subprocess
 import os
-os.system('pip install kaggle')
-import kaggle
+
+os.system("pip install kaggle")
+import kaggle  # pylint: disable=wrong-import-position
 
 
 def extract_from_kaggle(flag: bool):
     if flag:
+        print("WRONG BIT RAN!!!!")
         read_path = "/dbfs/mnt/rawdata/"
         write_path = "/mnt/transformed/"
     else:
@@ -14,7 +15,9 @@ def extract_from_kaggle(flag: bool):
 
     api = kaggle.KaggleApi()
     api.authenticate()
-    api.dataset_download_cli("mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path)
+    api.dataset_download_cli(
+        "mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path
+    )
 
     if flag:
         read_path = read_path[5:]

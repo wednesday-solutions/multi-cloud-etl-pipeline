@@ -1,0 +1,9 @@
+[MASTER]
+disable=C0114,C0103,C0116,R0914,E0401,W0511,W0108,R0911,R0801,C0115
+
+[FORMAT]
+max-line-length=150
+max-module-lines=350
+
+[SIMILARITIES]
+min-similarity-lines=4
