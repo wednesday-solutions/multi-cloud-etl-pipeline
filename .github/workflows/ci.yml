@@ -9,6 +9,7 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
+        container: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
@@ -26,10 +27,27 @@ jobs:
               run: mypy ./ --ignore-missing-imports
 
             - name: Lint
-              run: pylint app/ main.py setup.py
+              run: pylint app/ main.py setup.py  --output pylint-report.txt
 
             - name: Testing
               run: coverage run --source=app -m unittest discover -s app/tests/
 
             - name: Test coverage report
-              run: coverage report
+              run: coverage xml
+    
+            - name: SonarQube Scan
+              uses: sonarsource/sonarqube-scan-action@master
+              with:
+                args: >
+                  -Dsonar.scm.revision=${{ github.event.pull_request.head.sha }}
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    
+            - uses: sonarsource/sonarqube-quality-gate-action@master
+              timeout-minutes: 5
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
