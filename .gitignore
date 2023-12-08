@@ -2,3 +2,4 @@
 .coverage
 app/__pycache__
 app/tests/__pycache__
+tests/__pycache__
