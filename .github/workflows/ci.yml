@@ -9,6 +9,9 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
+        container:
+          image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+          options: --user 1001  # Set the user ID to 1001
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
@@ -20,7 +23,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                pip install mypy==1.7.1 pylint==3.0.2 pyspark==3.3.0 coverage
+                pip install -r requirements.txt
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
@@ -35,7 +38,7 @@ jobs:
               run: |
                 coverage report
                 coverage xml
-    
+
             - name: SonarQube Scan
               uses: sonarsource/sonarqube-scan-action@master
               with:
@@ -45,7 +48,7 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                 SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-    
+
             - uses: sonarsource/sonarqube-quality-gate-action@master
               timeout-minutes: 5
               env:
