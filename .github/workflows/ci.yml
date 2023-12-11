@@ -9,9 +9,7 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container:
-          image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
-          options: --user root  # Set the user ID to root
+        container: dipanshuwed/glue3.0
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
@@ -21,33 +19,10 @@ jobs:
               with:
                 python-version: "3.10"
 
-            - name: Check current directory & files in it
-              run: |
-                whoami
-                pwd
-                ls -a
-            
             - name: Install dependencies
               if: always()
               run: |
-                pip install --user root -r ./requirements.txt
-
-            - name: Install dependencies
-              if: always()
-              run: |
-                pip install coverage==7.3.2
-
-            - name: Install dependencies
-              if: always()
-              run: |
-                ls -a
-                pip install --user root coverage==7.3.2
-                
-            - name: Install dependencies
-              if: always()
-              run: |
-                ls -a
-                pip install --user coverage==7.3.2
+                pip install -r requirements.txt
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
