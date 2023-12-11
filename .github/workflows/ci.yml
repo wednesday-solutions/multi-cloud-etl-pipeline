@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         container:
           image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
-          options: --user 1001  # Set the user ID to 1001
+          options: --user root  # Set the user ID to root
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
