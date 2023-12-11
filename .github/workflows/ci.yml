@@ -9,18 +9,16 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: 
-          image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
-          options: --user root
+        container: python:3.10
 
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                python-version: "3.10"
+            # - name: Set up Python
+            #   uses: actions/setup-python@v2
+            #   with:
+            #     python-version: "3.10"
 
             - name: Check current repo
               if: always()
