@@ -9,7 +9,11 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: dipanshuwed/glue3.0
+        container: 
+          image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+          volumes:
+            - ${{ github.workspace }}:/home/glue_user/workspace
+            
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
