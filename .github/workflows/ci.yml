@@ -9,22 +9,18 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+        container: 
+          image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+          options: --user root
 
         steps:
-            # - name: Checkout repository
-            #   uses: actions/checkout@v3
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
             - name: Set up Python
               uses: actions/setup-python@v2
               with:
                 python-version: "3.10"
-
-            - name: Run as root in the container
-              run: sudo chown -R root:root /home/glue_user/workspace
-
-            - name: Checkout repository
-              uses: actions/checkout@v3
 
             - name: Check current repo
               if: always()
