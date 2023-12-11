@@ -11,9 +11,8 @@ jobs:
         runs-on: ubuntu-latest
         container: 
           image: amazon/aws-glue-libs:glue_libs_4.0.0_image_01
-          volumes:
-            - ${{ github.workspace }}:/home/glue_user/workspace
-            
+          user: root
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
