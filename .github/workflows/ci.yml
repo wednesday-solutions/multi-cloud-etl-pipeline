@@ -9,9 +9,7 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: 
-          image: dipanshuwed/glue3.0:latest
-          options: --cpus 1
+        container: vighneshwed/glue3.0:latest
 
         steps:
             - name: Checkout repository
