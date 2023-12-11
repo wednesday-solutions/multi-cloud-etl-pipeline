@@ -19,8 +19,14 @@ jobs:
               with:
                 python-version: "3.10"
 
-            - name: Install dependencies
+            - name: Check current repo
               if: always()
+              run: |
+                whoami
+                pwd
+                ls -a
+
+            - name: Install dependencies
               run: |
                 pip install -r requirements.txt
 
