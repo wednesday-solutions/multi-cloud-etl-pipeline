@@ -28,8 +28,26 @@ jobs:
                 ls -a
             
             - name: Install dependencies
+              if: always()
               run: |
-                pip install -r ./requirements.txt
+                pip install --user root -r ./requirements.txt
+
+            - name: Install dependencies
+              if: always()
+              run: |
+                pip install coverage==7.3.2
+
+            - name: Install dependencies
+              if: always()
+              run: |
+                ls -a
+                pip install --user root coverage==7.3.2
+                
+            - name: Install dependencies
+              if: always()
+              run: |
+                ls -a
+                pip install --user coverage==7.3.2
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
