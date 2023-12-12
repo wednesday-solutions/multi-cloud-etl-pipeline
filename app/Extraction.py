@@ -6,7 +6,6 @@ import kaggle  # pylint: disable=wrong-import-position
 
 def extract_from_kaggle(flag: bool):
     if flag:
-        print("WRONG BIT RAN!!!!")
         read_path = "/dbfs/mnt/rawdata/"
         write_path = "/mnt/transformed/"
     else:
