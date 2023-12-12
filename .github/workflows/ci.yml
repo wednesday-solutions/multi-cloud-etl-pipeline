@@ -10,19 +10,14 @@ jobs:
     run-ci:
         runs-on: ubuntu-latest
         container:
-          image: dipanshuwed/glue3.0
+          image: dipanshuwed/glue4.0
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-                #- name: Set up Python
-                #uses: actions/setup-python@v2
-                #with:
-                #python-version: 3.10.12
-
             - name: Install dependencies
               run: |
-                pip install mypy==1.7.1 pylint==3.0.2 pyspark==3.3.0 coverage
+                pip3 install mypy pylint coverage
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
