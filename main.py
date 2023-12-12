@@ -14,22 +14,27 @@ import dotenv  # pylint: disable=wrong-import-position, disable=wrong-import-ord
 
 # COMMAND ----------
 
-try:
-    import app.connect_databricks as cd  # pylint: disable=ungrouped-imports
-    import json
+# try:
+#     import app.connect_databricks as cd  # pylint: disable=ungrouped-imports
+#     import json
 
-    # Comment the following line if running directly in cloud notebook
-    spark, dbutils = cd.init_databricks()
+#     # Comment the following line if running directly in cloud notebook
+#     spark, dbutils = cd.init_databricks()
 
-    with open("/dbfs/mnt/config/keys.json", encoding="utf-8") as file:
-        keys = json.load(file)
+#     with open("/dbfs/mnt/config/keys.json", encoding="utf-8") as file:
+#         keys = json.load(file)
 
-    flag = keys["flag"]
-except:  # pylint: disable=bare-except
-    flag = "False"
+#     flag = keys["flag"]
+# except:  # pylint: disable=bare-except
+#     flag = "False"
 
 
-flag = bool(flag == "True")
+# flag = bool(flag == "True")
+
+if 'spark' in locals():
+    flag = True
+else:
+    flag = False
 
 
 # COMMAND ----------
@@ -46,6 +51,7 @@ if flag:
 
 # COMMAND ----------
 if flag:
+    import app.connect_databricks as cd
     # creating mounts
     cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
     cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
