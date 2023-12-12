@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+      - id: check-ast
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: Type Checking
+        entry: mypy ./ --ignore-missing-imports
+        language: system
+        always_run: true
+        types: [python3]
+        stages: [commit]
+
+      - id: lint
+        name: Linting
+        entry: pylint app/ main.py setup.py
+        language: system
+        always_run: true
+        types: [python3]
+        stages: [commit]
