@@ -18,6 +18,7 @@ jobs:
             - name: Install dependencies
               run: |
                 pip3 install mypy pylint coverage
+                yum install jq -y # jq is required for sonar
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
@@ -29,7 +30,9 @@ jobs:
               run: coverage run --source=app -m unittest discover -s app/tests/
 
             - name: Test coverage report
-              run: coverage xml
+              run: |
+                coverage report
+                coverage xml
     
             - name: SonarQube Scan
               uses: sonarsource/sonarqube-scan-action@master
