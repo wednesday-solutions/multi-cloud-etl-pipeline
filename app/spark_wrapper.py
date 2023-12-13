@@ -2,9 +2,7 @@ from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import Window, WindowSpec
 
 
-def create_frame(sc: SparkSession | None, path: str):
-    if sc is None:
-        raise TypeError(f"{sc} is None. Pass Spark Session")
+def create_frame(sc: SparkSession, path: str):
     df = sc.read.csv(path, inferSchema=True, header=True)
     return df
 
