@@ -10,7 +10,7 @@ jobs:
     run-ci:
         runs-on: ubuntu-latest
         container: dipanshuwed/glue4.0:latest
-
+        
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
