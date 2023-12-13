@@ -31,9 +31,9 @@ jobs:
 
             - name: Testing
               run: |
-              export KAGGLE_KEY=MOCKKEY
-              export KAGGLE_USERNAME=MOCKUSERNAME
-              coverage run --source=app -m unittest discover -s tests
+                export KAGGLE_KEY=MOCKKEY
+                export KAGGLE_USERNAME=MOCKUSERNAME
+                coverage run --source=app -m unittest discover -s tests
 
             - name: Test coverage report
               run: |
