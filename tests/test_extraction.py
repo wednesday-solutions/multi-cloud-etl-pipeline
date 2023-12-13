@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from app.Extraction import extract_from_kaggle
+from app.extraction import extract_from_kaggle
 
 
 class TestExtraction(unittest.TestCase):
