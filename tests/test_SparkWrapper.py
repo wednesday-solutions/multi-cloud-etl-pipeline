@@ -9,9 +9,8 @@ class TestSparkWrapper(TestCase):
         self.spark = (
             SparkSession.builder.master("local").appName("Testing").getOrCreate()
         )
-        self.df = self.spark.read.csv(
-            "app/tests/mock/sample.csv", inferSchema=True, header=True
-        )
+        self.path = "tests/mock/sample.csv"
+        self.df = self.spark.read.csv(self.path, inferSchema=True, header=True)
         super().setUp()
 
     def tearDown(self) -> None:
@@ -43,8 +42,7 @@ class TestSparkWrapper(TestCase):
         self.assertListEqual(actual_columns, expected_columns)
 
     def test_create_frame(self):
-        path = "app/tests/mock/sample.csv"
-        df = create_frame(self.spark, path).drop("date")
+        df = create_frame(self.spark, self.path).drop("date")
         actual_data = df.collect()
 
         expected_data = [

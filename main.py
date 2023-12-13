@@ -31,21 +31,30 @@ except:  # pylint: disable=bare-except
 
 flag = bool(flag == "True")
 
+# if 'spark' in locals():
+#     flag = True
+# else:
+#     spark = None
+#     dbutils = None
+#     flag = False
+
 
 # COMMAND ----------
 
 if flag:
-    os.environ["KAGGLE_USERNAME"] = keys["kaggle_username"]
+    os.environ["KAGGLE_USERNAME"] = dbutils.widgets.get("kaggle_username")
 
-    os.environ["KAGGLE_KEY"] = keys["kaggle_token"]
+    os.environ["KAGGLE_KEY"] = dbutils.widgets.get("kaggle_token")
 
-    os.environ["storage_account_name"] = keys["storage_account_name"]
+    os.environ["storage_account_name"] = dbutils.widgets.get("storage_account_name")
 
-    os.environ["datalake_access_key"] = keys["datalake_access_key"]
+    os.environ["datalake_access_key"] = dbutils.widgets.get("datalake_access_key")
 
 
 # COMMAND ----------
 if flag:
+    import app.connect_databricks as cd
+
     # creating mounts
     cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
     cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")

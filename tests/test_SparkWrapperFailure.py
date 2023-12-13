@@ -11,9 +11,8 @@ class TestSparkWrapper(TestCase):
         self.spark = (
             SparkSession.builder.appName("Testing").master("local[*]").getOrCreate()
         )
-        self.df = self.spark.read.csv(
-            "app/tests/mock/sample.csv", inferSchema=True, header=True
-        )
+        self.path = "tests/mock/sample.csv"
+        self.df = self.spark.read.csv(self.path, inferSchema=True, header=True)
         super().setUp()
 
     def tearDown(self) -> None:

@@ -9,31 +9,37 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container:
-          image: dipanshuwed/glue4.0
+        container: dipanshuwed/glue4.0:latest
+        
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
 
             - name: Install dependencies
               run: |
-                pip3 install mypy pylint coverage
-                yum install jq -y # jq is required for sonar
+                python3 -m pip install --upgrade pip
+                pip3 install -r requirements.txt
+                yum install -y jq
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
 
             - name: Lint
-              run: pylint app/ main.py setup.py  --output pylint-report.txt
+              run: |
+                pylint app tests main.py setup.py --output pylint-report.txt
+                pylint app tests main.py setup.py
 
             - name: Testing
-              run: coverage run --source=app -m unittest discover -s app/tests/
+              run: |
+                export KAGGLE_KEY=MOCKKEY
+                export KAGGLE_USERNAME=MOCKUSERNAME
+                coverage run --source=app -m unittest discover -s tests
 
             - name: Test coverage report
               run: |
                 coverage report
                 coverage xml
-    
+
             - name: SonarQube Scan
               uses: sonarsource/sonarqube-scan-action@master
               with:
@@ -43,7 +49,7 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                 SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-    
+
             - uses: sonarsource/sonarqube-quality-gate-action@master
               timeout-minutes: 5
               env:

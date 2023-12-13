@@ -25,7 +25,7 @@ repos:
 
       - id: lint
         name: Linting
-        entry: pylint app/ main.py setup.py
+        entry: pylint app tests main.py setup.py
         language: system
         always_run: true
         types: [python3]
