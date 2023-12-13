@@ -7,7 +7,7 @@ from pyspark.sql.functions import round as sp_round
 from pyspark.sql import Window
 import pyspark.sql.functions as F
 
-import app.SparkWrapper as sw
+import app.spark_wrapper as sw
 
 os.system("pip install python-dotenv")
 import dotenv  # pylint: disable=wrong-import-position, disable=wrong-import-order
@@ -85,7 +85,7 @@ else:
 
 
 # COMMAND ----------
-from app.Extraction import extract_from_kaggle  # pylint: disable=wrong-import-position
+from app.extraction import extract_from_kaggle  # pylint: disable=wrong-import-position
 
 # COMMAND ----------
 
