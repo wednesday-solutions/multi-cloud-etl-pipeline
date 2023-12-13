@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import Window, WindowSpec
 
 
-def create_frame(sc: SparkSession, path: str):
+def create_frame(sc, path: str):
     df = sc.read.csv(path, inferSchema=True, header=True)
     return df
 
