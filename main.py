@@ -14,41 +14,42 @@ import dotenv  # pylint: disable=wrong-import-position, disable=wrong-import-ord
 
 # COMMAND ----------
 
-try:
-    import app.connect_databricks as cd  # pylint: disable=ungrouped-imports
-    import json
+# try:
+#     import app.connect_databricks as cd  # pylint: disable=ungrouped-imports
+#     import json
 
-    # Comment the following line if running directly in cloud notebook
-    spark, dbutils = cd.init_databricks()
+#     # Comment the following line if running directly in cloud notebook
+#     spark, dbutils = cd.init_databricks()
 
-    with open("/dbfs/mnt/config/keys.json", encoding="utf-8") as file:
-        keys = json.load(file)
+#     with open("/dbfs/mnt/config/keys.json", encoding="utf-8") as file:
+#         keys = json.load(file)
 
-    flag = keys["flag"]
-except:  # pylint: disable=bare-except
-    flag = "False"
+#     flag = keys["flag"]
+# except:  # pylint: disable=bare-except
+#     flag = "False"
 
 
-flag = bool(flag == "True")
+# flag = bool(flag == "True")
 
-# if 'spark' in locals():
-#     flag = True
-# else:
-#     spark = None
-#     dbutils = None
-#     flag = False
+if 'dbutils' in locals():
+    flag = True
+else:
+    spark = None
+    dbutils = None
+    flag = False
 
 
 # COMMAND ----------
 
 if flag:
-    os.environ["KAGGLE_USERNAME"] = dbutils.widgets.get("kaggle_username")
+    import app.connect_databricks as cd
+    os.environ["KAGGLE_USERNAME"] = cd.get_param_value(dbutils, "kaggle_username")
 
-    os.environ["KAGGLE_KEY"] = dbutils.widgets.get("kaggle_token")
+    os.environ["KAGGLE_KEY"] = cd.get_param_value(dbutils, "kaggle_token")
 
-    os.environ["storage_account_name"] = dbutils.widgets.get("storage_account_name")
+    os.environ["storage_account_name"] = cd.get_param_value(dbutils, "storage_account_name")
 
-    os.environ["datalake_access_key"] = dbutils.widgets.get("datalake_access_key")
+    os.environ["datalake_access_key"] = cd.get_param_value(dbutils, "datalake_access_key")
 
 
 # COMMAND ----------
