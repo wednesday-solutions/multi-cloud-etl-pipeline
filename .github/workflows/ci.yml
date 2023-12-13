@@ -30,7 +30,10 @@ jobs:
                 pylint app tests main.py setup.py
 
             - name: Testing
-              run: coverage run --source=app -m unittest discover -s tests
+              run: |
+              export KAGGLE_KEY=MOCKKEY
+              export KAGGLE_USERNAME=MOCKUSERNAME
+              coverage run --source=app -m unittest discover -s tests
 
             - name: Test coverage report
               run: |
