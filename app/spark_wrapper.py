@@ -1,4 +1,4 @@
-from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql import DataFrame
 from pyspark.sql import Window, WindowSpec
 
 
