@@ -1,18 +1,6 @@
 import os
-from databricks.connect import DatabricksSession
-from databricks.sdk import WorkspaceClient
 
-
-def init_databricks():
-    os.system("cp /dbfs/mnt/config/databricks-connect.txt ~/.databrickscfg")
-
-    spark = DatabricksSession.builder.getOrCreate()
-
-    dbutils = WorkspaceClient().dbutils
-
-    return spark, dbutils
-
-def get_param_value(dbutils, param_key):
+def get_param_value(dbutils, param_key: str):
     return dbutils.widgets.get(param_key)
 
 
