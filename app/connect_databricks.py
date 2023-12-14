@@ -1,5 +1,6 @@
 import os
 
+
 def get_param_value(dbutils, param_key: str):
     return dbutils.widgets.get(param_key)
 
@@ -21,13 +22,3 @@ def create_mount(dbutils, container_name, mount_path):
     else:
         dbutils.fs.refreshMounts()
         print(f"{mount_path} Already mounted")
-
-
-def unmount(dbutils, mount_path):
-    try:
-        dbutils.fs.unmount(mount_path)
-        print("Unmount Successful")
-    except FileNotFoundError:
-        print(f"Error: Path not found - {mount_path}")
-    except Exception as e:  # pylint: disable=W0718
-        print(f"Error: {e}")
