@@ -1,7 +1,7 @@
 from unittest import TestCase
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-from app.SparkWrapper import value_counts, rename_columns, create_frame, make_window
+from app.spark_wrapper import value_counts, rename_columns, create_frame, make_window
 
 
 class TestSparkWrapper(TestCase):

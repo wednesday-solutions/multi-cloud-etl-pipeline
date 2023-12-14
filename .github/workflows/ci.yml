@@ -26,8 +26,8 @@ jobs:
 
             - name: Lint
               run: |
-                pylint app tests main.py setup.py --output pylint-report.txt
                 pylint app tests main.py setup.py
+                pylint app tests main.py setup.py --output pylint-report.txt
 
             - name: Testing
               run: |

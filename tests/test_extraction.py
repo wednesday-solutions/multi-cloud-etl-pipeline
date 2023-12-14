@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch
-from app.Extraction import extract_from_kaggle
+from app.extraction import extract_from_kaggle
 
 
 class TestExtraction(unittest.TestCase):
-    @patch("app.Extraction.kaggle")
+    @patch("app.extraction.kaggle")
     def test_extract_from_kaggle_success(self, mock_kaggle):
         mock_kaggle_instance = mock_kaggle
         mock_api_instance = mock_kaggle_instance.KaggleApi.return_value
@@ -26,7 +26,7 @@ class TestExtraction(unittest.TestCase):
 
         self.assertEqual(result, ("/mnt/rawdata/", "/mnt/transformed/"))
 
-    @patch("app.Extraction.kaggle")
+    @patch("app.extraction.kaggle")
     def test_extract_from_kaggle_success_false(self, mock_kaggle):
         mock_kaggle_instance = mock_kaggle
         mock_api_instance = mock_kaggle_instance.KaggleApi.return_value
@@ -52,7 +52,7 @@ class TestExtraction(unittest.TestCase):
             ),
         )
 
-    @patch("app.Extraction.kaggle")
+    @patch("app.extraction.kaggle")
     def test_extract_from_kaggle_failure(self, mock_kaggle):
         mock_kaggle_instance = mock_kaggle
         mock_api_instance = mock_kaggle_instance.KaggleApi.return_value

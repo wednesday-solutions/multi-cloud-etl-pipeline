@@ -12,6 +12,9 @@ def init_databricks():
 
     return spark, dbutils
 
+def get_param_value(dbutils, param_key):
+    return dbutils.widgets.get(param_key)
+
 
 def create_mount(dbutils, container_name, mount_path):
     storage_name = os.environ["storage_account_name"]
