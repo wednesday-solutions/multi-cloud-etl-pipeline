@@ -31,7 +31,7 @@ import dotenv  # pylint: disable=wrong-import-position, disable=wrong-import-ord
 
 # flag = bool(flag == "True")
 
-if 'dbutils' in locals():
+if "dbutils" in locals():
     flag = True
 else:
     spark = None
@@ -43,13 +43,18 @@ else:
 
 if flag:
     import app.connect_databricks as cd
+
     os.environ["KAGGLE_USERNAME"] = cd.get_param_value(dbutils, "kaggle_username")
 
     os.environ["KAGGLE_KEY"] = cd.get_param_value(dbutils, "kaggle_token")
 
-    os.environ["storage_account_name"] = cd.get_param_value(dbutils, "storage_account_name")
+    os.environ["storage_account_name"] = cd.get_param_value(
+        dbutils, "storage_account_name"
+    )
 
-    os.environ["datalake_access_key"] = cd.get_param_value(dbutils, "datalake_access_key")
+    os.environ["datalake_access_key"] = cd.get_param_value(
+        dbutils, "datalake_access_key"
+    )
 
 
 # COMMAND ----------
