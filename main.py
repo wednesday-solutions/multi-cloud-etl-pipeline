@@ -20,27 +20,21 @@ else:
     dbutils = None
     databricks = False
 
-read_path, write_path = env.get_paths(databricks)
 # COMMAND ----------
-
-spark = env.set_keys_get_spark(databricks, dbutils, spark)
-
-# COMMAND ----------
-
-# Comment below 2 lines if you don't want to extract from kaggle
-
-from app.extraction import extract_from_kaggle  # pylint: disable=wrong-import-position
-
-extract_from_kaggle(databricks, read_path)
-
-# COMMAND ----------
-
 # fmt: off
-[employee, insurance, vendor] = env.get_dataframes(databricks, spark, read_path)  # pylint: disable=unbalanced-tuple-unpacking
+
+# Keep this flag True if you want to extract data from kaggle, else False
+kaggle_extraction = True
+
+[employee, insurance, vendor] = env.get_data(databricks, kaggle_extraction, dbutils, spark) #pylint: disable=unbalanced-tuple-unpacking
+
+write_path = env.get_write_path(databricks)
 
 # fmt: on
+# COMMAND ----------
 
-# performing cleaning
+# Write all your transformations from below to end-of-file
+
 employee = sw.rename_same_columns(employee, "AGENT")
 insurance = sw.rename_same_columns(insurance, "CUSTOMER")
 vendor = sw.rename_same_columns(vendor, "VENDOR")

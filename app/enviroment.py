@@ -31,7 +31,7 @@ def set_keys_get_spark(databricks: bool, dbutils, spark):
 
 
 def get_dataframes(databricks: bool, spark, directory_path: str):
-    dfs = []
+    df_list = []
 
     if databricks:
         csv_files = [
@@ -53,13 +53,38 @@ def get_dataframes(databricks: bool, spark, directory_path: str):
     for csv_file in csv_files:
         file_path = os.path.join(directory_path, csv_file)
         df = sw.create_frame(spark, file_path)
-        dfs.append(df)
+        df_list.append(df)
 
-    return dfs
+    return df_list
 
 
-def get_paths(databricks: bool):
+def get_read_path(databricks: bool):
     if databricks:
-        return os.getenv("DATABRICKS_READ_PATH"), os.getenv("DATABRICKS_WRITE_PATH")
+        return os.getenv("DATABRICKS_READ_PATH")
 
-    return os.getenv("GLUE_READ_PATH"), os.getenv("GLUE_WRITE_PATH")
+    return os.getenv("GLUE_READ_PATH")
+
+
+def get_write_path(databricks: bool):
+    if databricks:
+        return os.getenv("DATABRICKS_WRITE_PATH")
+
+    return os.getenv("GLUE_WRITE_PATH")
+
+
+def get_data(databricks: bool, kaggle_extraction: bool, dbutils, spark):
+    spark = set_keys_get_spark(databricks, dbutils, spark)
+
+    read_path = get_read_path(databricks)
+
+    # fmt: off
+    if kaggle_extraction:
+        from app.extraction import extract_from_kaggle # pylint: disable=import-outside-toplevel
+
+        extract_from_kaggle(databricks, read_path)
+
+    # fmt: on
+
+    data = get_dataframes(databricks, spark, read_path)
+
+    return data
