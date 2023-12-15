@@ -1,159 +1,49 @@
 # Databricks notebook source
-import os
-import subprocess
+from dotenv import load_dotenv
 
 from pyspark.sql.functions import when, col
 from pyspark.sql.functions import round as sp_round
 from pyspark.sql import Window
 import pyspark.sql.functions as F
 
+import app.enviroment as env
 import app.spark_wrapper as sw
 
-os.system("pip install python-dotenv")
-import dotenv  # pylint: disable=wrong-import-position, disable=wrong-import-order
+load_dotenv("app/.custom-env")
 
 # COMMAND ----------
 
-# try:
-#     import app.connect_databricks as cd  # pylint: disable=ungrouped-imports
-#     import json
-
-#     # Comment the following line if running directly in cloud notebook
-#     spark, dbutils = cd.init_databricks()
-
-#     with open("/dbfs/mnt/config/keys.json", encoding="utf-8") as file:
-#         keys = json.load(file)
-
-#     flag = keys["flag"]
-# except:  # pylint: disable=bare-except
-#     flag = "False"
-
-
-# flag = bool(flag == "True")
-
 if "dbutils" in locals():
-    flag = True
+    databricks = True
 else:
     spark = None
     dbutils = None
-    flag = False
+    databricks = False
 
+read_path, write_path = env.get_paths(databricks)
+# COMMAND ----------
+
+spark = env.set_keys_get_spark(databricks, dbutils, spark)
 
 # COMMAND ----------
 
-if flag:
-    import app.connect_databricks as cd
+# Comment below 2 lines if you don't want to extract from kaggle
 
-    os.environ["KAGGLE_USERNAME"] = cd.get_param_value(dbutils, "kaggle_username")
-
-    os.environ["KAGGLE_KEY"] = cd.get_param_value(dbutils, "kaggle_token")
-
-    os.environ["storage_account_name"] = cd.get_param_value(
-        dbutils, "storage_account_name"
-    )
-
-    os.environ["datalake_access_key"] = cd.get_param_value(
-        dbutils, "datalake_access_key"
-    )
-
-
-# COMMAND ----------
-if flag:
-    import app.connect_databricks as cd
-
-    # creating mounts
-    cd.create_mount(dbutils, "zipdata", "/mnt/zipdata/")
-    cd.create_mount(dbutils, "rawdata", "/mnt/rawdata/")
-    cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
-
-else:
-    import app.connect_glue as cg
-    from awsglue.utils import getResolvedOptions
-    import sys
-
-    # initiating glue spark
-    try:
-        print("Setting up params...")
-        args = getResolvedOptions(
-            sys.argv, ["JOB_NAME", "KAGGLE_USERNAME", "KAGGLE_KEY", "FLAG"]
-        )
-    except:  # pylint: disable=bare-except
-        args = {"JOB_NAME": "local"}
-
-    glueContext, spark, job = cg.init_glue()
-    job.init("sample")
-    if args["JOB_NAME"] == "local":
-        dotenv.load_dotenv()
-    else:
-        os.environ["KAGGLE_USERNAME"] = args["KAGGLE_USERNAME"]
-        os.environ["KAGGLE_KEY"] = args["KAGGLE_KEY"]
-
-
-# COMMAND ----------
 from app.extraction import extract_from_kaggle  # pylint: disable=wrong-import-position
 
-# COMMAND ----------
-
-read_path, write_path = extract_from_kaggle(flag)
-
-if flag is False:
-    copy_command = f"aws s3 cp temp/ {read_path} --recursive"
-    result = subprocess.run(
-        copy_command,
-        shell=True,
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    print("Output:", result.stdout)
+extract_from_kaggle(databricks, read_path)
 
 # COMMAND ----------
 
-# reading data in different frames
+# fmt: off
+[employee, insurance, vendor] = env.get_dataframes(databricks, spark, read_path)  # pylint: disable=unbalanced-tuple-unpacking
 
-employee = sw.create_frame(spark, read_path + "employee_data.csv")
+# fmt: on
 
-employee = sw.rename_columns(
-    employee,
-    {
-        "ADDRESS_LINE1": "AGENT_ADDRESS_LINE1",
-        "ADDRESS_LINE2": "AGENT_ADDRESS_LINE2",
-        "CITY": "AGENT_CITY",
-        "STATE": "AGENT_STATE",
-        "POSTAL_CODE": "AGENT_POSTAL_CODE",
-    },
-)
-
-# COMMAND ----------
-
-insurance = sw.create_frame(spark, read_path + "insurance_data.csv")
-
-insurance = sw.rename_columns(
-    insurance,
-    {
-        "ADDRESS_LINE1": "CUSTOMER_ADDRESS_LINE1",
-        "ADDRESS_LINE2": "CUSTOMER_ADDRESS_LINE2",
-        "CITY": "CUSTOMER_CITY",
-        "STATE": "CUSTOMER_STATE",
-        "POSTAL_CODE": "CUSTOMER_POSTAL_CODE",
-    },
-)
-
-# COMMAND ----------
-
-vendor = sw.create_frame(spark, read_path + "vendor_data.csv")
-
-vendor = sw.rename_columns(
-    vendor,
-    {
-        "ADDRESS_LINE1": "VENDOR_ADDRESS_LINE1",
-        "ADDRESS_LINE2": "VENDOR_ADDRESS_LINE2",
-        "CITY": "VENDOR_CITY",
-        "STATE": "VENDOR_STATE",
-        "POSTAL_CODE": "VENDOR_POSTAL_CODE",
-    },
-)
+# performing cleaning
+employee = sw.rename_same_columns(employee, "AGENT")
+insurance = sw.rename_same_columns(insurance, "CUSTOMER")
+vendor = sw.rename_same_columns(vendor, "VENDOR")
 
 # COMMAND ----------
 
@@ -314,10 +204,5 @@ print("Task 8 Done")
 
 # finally writting the data in transformed container
 df.coalesce(1).write.csv(write_path + "final_data.csv", header=True, mode="overwrite")
-
-# COMMAND ----------
-
-if flag is False:
-    job.commit()
 
 print("Execution Complete")

@@ -1,10 +1,6 @@
 import os
 
 
-def get_param_value(dbutils, param_key: str):
-    return dbutils.widgets.get(param_key)
-
-
 def create_mount(dbutils, container_name, mount_path):
     storage_name = os.environ["storage_account_name"]
     storage_key = os.environ["datalake_access_key"]

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from app.connect_databricks import create_mount, get_param_value
+from app.connect_databricks import create_mount
 
 
 def constructor(self, mount_point):
@@ -63,30 +63,3 @@ class TestMountFunctions(unittest.TestCase):
         # Assertions
         self.dbutils.fs.mount.assert_not_called()
         self.dbutils.fs.refreshMounts.assert_called_once()
-
-    def test_get_param_value_success(self):
-        param_key = "mock_param_key"
-        mock_param_value = "mock_param_value"
-
-        # Mocking dbutils.widgets.get() to return a value
-        self.dbutils.widgets.get.return_value = mock_param_value
-
-        # Call the function to test
-        result = get_param_value(self.dbutils, param_key)
-
-        # Assertions
-        self.assertEqual(result, mock_param_value)
-        self.dbutils.widgets.get.assert_called_once_with(param_key)
-
-    def test_get_param_value_failure(self):
-        param_key = "mock_param_key"
-
-        # Mocking dbutils.widgets.get() to return None (indicating failure)
-        self.dbutils.widgets.get.return_value = None
-
-        # Call the function to test
-        result = get_param_value(self.dbutils, param_key)
-
-        # Assertions
-        self.assertIsNone(result)
-        self.dbutils.widgets.get.assert_called_once_with(param_key)

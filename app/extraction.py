@@ -1,26 +1,19 @@
 import os
-
-os.system("pip install kaggle")
-import kaggle  # pylint: disable=wrong-import-position
+import kaggle
 
 
-def extract_from_kaggle(flag: bool):
-    if flag:
-        read_path = "/dbfs/mnt/rawdata/"
-        write_path = "/mnt/transformed/"
+def extract_from_kaggle(databricks: bool, extraction_path: str):
+    if databricks:
+        temp_path = "/dbfs" + extraction_path
     else:
-        read_path = "temp/"
-        write_path = "s3://glue-bucket-vighnesh/transformed/"
+        temp_path = "temp/"
 
     api = kaggle.KaggleApi()
     api.authenticate()
-    api.dataset_download_cli(
-        "mastmustu/insurance-claims-fraud-data", unzip=True, path=read_path
-    )
+    api.dataset_download_cli(os.getenv("KAGGLE_PATH"), unzip=True, path=temp_path)
 
-    if flag:
-        read_path = read_path[5:]
-    else:
-        read_path = "s3://glue-bucket-vighnesh/rawdata/"
+    if databricks is False:
+        copy_command = f"aws s3 cp {temp_path} {extraction_path} --recursive"
+        os.system(copy_command)
 
-    return read_path, write_path
+    print(f"Extracted Data Successfully in path: {extraction_path}")

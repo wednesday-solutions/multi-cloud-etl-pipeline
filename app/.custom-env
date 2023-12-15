@@ -1,0 +1,9 @@
+# this is my custom file for read & write path based on environment
+
+GLUE_READ_PATH = "s3://glue-bucket-vighnesh/rawdata/"
+GLUE_WRITE_PATH = "s3://glue-bucket-vighnesh/transformed/"
+
+DATABRICKS_READ_PATH = "/mnt/rawdata/"
+DATABRICKS_WRITE_PATH = "/mnt/transformed/"
+
+KAGGLE_PATH = "mastmustu/insurance-claims-fraud-data"

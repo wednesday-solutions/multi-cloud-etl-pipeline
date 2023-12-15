@@ -33,3 +33,18 @@ def make_window(
     return (
         Window.partitionBy(partition).orderBy(order).rangeBetween(range_from, range_to)
     )
+
+
+# this is my custom cleaning function specific for mastmustu/insurance-claims-fraud-data data
+def rename_same_columns(df: DataFrame, prefix: str) -> DataFrame:
+    cols_dict = {
+        "ADDRESS_LINE1": f"{prefix}_ADDRESS_LINE1",
+        "ADDRESS_LINE2": f"{prefix}_ADDRESS_LINE2",
+        "CITY": f"{prefix}_CITY",
+        "STATE": f"{prefix}_STATE",
+        "POSTAL_CODE": f"{prefix}_POSTAL_CODE",
+    }
+
+    df = rename_columns(df, cols_dict)
+
+    return df
