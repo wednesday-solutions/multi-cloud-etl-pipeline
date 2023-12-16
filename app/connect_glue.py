@@ -15,7 +15,7 @@ def init_glue():
         args = {"JOB_NAME": "local"}
 
     sc = SparkContext()
-    glueContext = GlueContext(sc)
-    spark = glueContext.spark_session
+    glue_context = GlueContext(sc)
+    spark = glue_context.spark_session
 
     return spark, args
