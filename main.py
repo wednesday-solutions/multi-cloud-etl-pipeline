@@ -6,7 +6,7 @@ from pyspark.sql.functions import round as sp_round
 from pyspark.sql import Window
 import pyspark.sql.functions as F
 
-import app.enviroment as env
+import app.environment as env
 import app.spark_wrapper as sw
 
 load_dotenv("app/.custom-env")

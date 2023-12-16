@@ -3,7 +3,13 @@ from unittest import TestCase
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql import utils as U
-from app.spark_wrapper import value_counts, rename_columns, create_frame, make_window
+from app.spark_wrapper import (
+    value_counts,
+    rename_columns,
+    create_frame,
+    make_window,
+    rename_same_columns,
+)
 
 
 class TestSparkWrapper(TestCase):
@@ -69,5 +75,13 @@ class TestSparkWrapper(TestCase):
             rename_columns(self.df, ["invalid_col", "myname"])
 
         expected_error_message = "WRONG DATATYPE"
+        actual_error_message = str(context.exception)
+        self.assertTrue(expected_error_message in actual_error_message)
+
+    def test_rename_same_column_failure(self):
+        with self.assertRaises(ValueError) as context:
+            rename_same_columns(self.df, "VENDOR")
+
+        expected_error_message = "COLUMN DOESN'T EXIST"
         actual_error_message = str(context.exception)
         self.assertTrue(expected_error_message in actual_error_message)

@@ -1,7 +1,13 @@
 from unittest import TestCase
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-from app.spark_wrapper import value_counts, rename_columns, create_frame, make_window
+from app.spark_wrapper import (
+    value_counts,
+    rename_columns,
+    create_frame,
+    make_window,
+    rename_same_columns,
+)
 
 
 class TestSparkWrapper(TestCase):
@@ -103,3 +109,29 @@ class TestSparkWrapper(TestCase):
         for actual, expected in zip(actual_data, expected_data):
             for col_name in expected.keys():
                 self.assertEqual(actual[col_name], expected[col_name])
+
+    def test_rename_same_columns(self):
+        df = self.df
+        df = df.withColumn("ADDRESS_LINE1", F.lit("123 Main St"))
+        df = df.withColumn("ADDRESS_LINE2", F.lit("Apt 456"))
+        df = df.withColumn("CITY", F.lit("Cityville"))
+        df = df.withColumn("STATE", F.lit("CA"))
+        df = df.withColumn("POSTAL_CODE", F.lit("12345"))
+
+        df = rename_same_columns(df, "CUSTOMER")
+
+        actual_columns = df.columns
+
+        expected_columns = [
+            "stock_name",
+            "market",
+            "close_price",
+            "date",
+            "CUSTOMER_ADDRESS_LINE1",
+            "CUSTOMER_ADDRESS_LINE2",
+            "CUSTOMER_CITY",
+            "CUSTOMER_STATE",
+            "CUSTOMER_POSTAL_CODE",
+        ]
+
+        self.assertListEqual(actual_columns, expected_columns)
