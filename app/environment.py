@@ -2,7 +2,6 @@ import os
 import subprocess
 import dotenv
 import app.connect_databricks as cd
-import app.connect_glue as cg
 import app.spark_wrapper as sw
 
 
@@ -20,6 +19,8 @@ def set_keys_get_spark(databricks: bool, dbutils, spark):
         cd.create_mount(dbutils, "transformed", "/mnt/transformed/")
 
     else:
+        import app.connect_glue as cg  # pylint: disable=import-outside-toplevel
+
         spark, args = cg.init_glue()
         if args["JOB_NAME"] == "local":
             dotenv.load_dotenv()
