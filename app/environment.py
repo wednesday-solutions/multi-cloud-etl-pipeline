@@ -36,7 +36,9 @@ def get_dataframes(databricks: bool, spark, directory_path: str):
 
     if databricks:
         csv_files = [
-            file for file in os.listdir(directory_path) if file.endswith(".csv")
+            file
+            for file in os.listdir("/dbfs" + directory_path)
+            if file.endswith(".csv")
         ]
     else:
         cmd = f"aws s3 ls {directory_path}"

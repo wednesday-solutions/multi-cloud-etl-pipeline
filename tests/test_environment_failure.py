@@ -11,7 +11,7 @@ from app.environment import (
 
 
 class TestSetKeysGetSpark(unittest.TestCase):
-    @patch("app.environment.cg.init_glue")
+    @patch("app.connect_glue.init_glue")
     @patch("app.environment.cd.create_mount")
     @patch("app.environment.dotenv.load_dotenv")
     def test_databricks_environment_failure(
@@ -35,7 +35,7 @@ class TestSetKeysGetSpark(unittest.TestCase):
         mock_init_glue.assert_not_called()
         mock_load_dotenv.assert_not_called()
 
-    @patch("app.environment.cg.init_glue")
+    @patch("app.connect_glue.init_glue")
     @patch("app.environment.cd.create_mount")
     @patch("app.environment.dotenv.load_dotenv")
     def test_glue_local_environment_failure(
@@ -77,7 +77,7 @@ class TestSetKeysGetSpark(unittest.TestCase):
 
         # Assert
         self.assertEqual(str(context.exception), "Error listing directory")
-        mock_listdir.assert_called_with(directory_path)
+        mock_listdir.assert_called_with("/dbfs" + directory_path)
         mock_create_frame.assert_not_called()
 
     @patch("app.environment.sw.create_frame")
