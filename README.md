@@ -37,6 +37,9 @@ To run the same ETL code in multiple cloud services based on your preference, th
     JOB_NAME
     KAGGLE_USERNAME
     KAGGLE_KEY
+    GLUE_READ_PATH
+    GLUE_WRITE_PATH
+    KAGGLE
     ```
     Rest everything is taken care of in ```cd.yml``` file.
 

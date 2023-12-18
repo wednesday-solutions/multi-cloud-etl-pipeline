@@ -27,6 +27,9 @@ def set_keys_get_spark(databricks: bool, dbutils, spark):
         else:
             os.environ["KAGGLE_USERNAME"] = args["KAGGLE_USERNAME"]
             os.environ["KAGGLE_KEY"] = args["KAGGLE_KEY"]
+            os.environ["GLUE_READ_PATH"] = args["GLUE_READ_PATH"]
+            os.environ["GLUE_WRITE_PATH"] = args["GLUE_WRITE_PATH"]
+            os.environ["KAGGLE_PATH"] = args["KAGGLE_PATH"]
 
     return spark
 

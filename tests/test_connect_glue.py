@@ -24,6 +24,9 @@ class TestInitGlue(unittest.TestCase):
             "JOB_NAME": "test",
             "KAGGLE_USERNAME": "test_username",
             "KAGGLE_KEY": "test_key",
+            "GLUE_READ_PATH": "test_read_path",
+            "GLUE_WRITE_PATH": "tests_write_path",
+            "KAGGLE_PATH": "test_kaggle_path",
         }
 
         # Call the function to test
@@ -33,7 +36,15 @@ class TestInitGlue(unittest.TestCase):
         mock_spark_context.assert_called_once()
         mock_glue_context.assert_called_once_with(mock_spark_context_instance)
         mock_get_resolved_options.assert_called_once_with(
-            sys.argv, ["JOB_NAME", "KAGGLE_USERNAME", "KAGGLE_KEY"]
+            sys.argv,
+            [
+                "JOB_NAME",
+                "KAGGLE_USERNAME",
+                "KAGGLE_KEY",
+                "GLUE_READ_PATH",
+                "GLUE_WRITE_PATH",
+                "KAGGLE_PATH",
+            ],
         )
 
         # Check if the returned values are correct
@@ -44,6 +55,9 @@ class TestInitGlue(unittest.TestCase):
                 "JOB_NAME": "test",
                 "KAGGLE_USERNAME": "test_username",
                 "KAGGLE_KEY": "test_key",
+                "GLUE_READ_PATH": "test_read_path",
+                "GLUE_WRITE_PATH": "tests_write_path",
+                "KAGGLE_PATH": "test_kaggle_path",
             },
         )
 
@@ -84,6 +98,9 @@ class TestInitGlue(unittest.TestCase):
             "JOB_NAME": "test",
             "KAGGLE_USERNAME": "test_username",
             "KAGGLE_KEY": "test_key",
+            "GLUE_READ_PATH": "test_read_path",
+            "GLUE_WRITE_PATH": "tests_write_path",
+            "KAGGLE_PATH": "test_kaggle_path",
         }
 
         # Call the function to test

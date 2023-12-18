@@ -80,6 +80,9 @@ class TestSetKeysGetSpark(unittest.TestCase):
             "JOB_NAME": "online",
             "KAGGLE_USERNAME": "mock_name",
             "KAGGLE_KEY": "mock_key",
+            "GLUE_READ_PATH": "mock_read_path",
+            "GLUE_WRITE_PATH": "mock_write_path",
+            "KAGGLE_PATH": "mock_kaggle_path",
         }
         mock_init_glue.return_value = (mock_spark, mock_args)
 

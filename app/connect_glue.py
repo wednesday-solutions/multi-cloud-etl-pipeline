@@ -7,7 +7,15 @@ from awsglue.context import GlueContext
 def init_glue():
     try:
         args = getResolvedOptions(
-            sys.argv, ["JOB_NAME", "KAGGLE_USERNAME", "KAGGLE_KEY"]
+            sys.argv,
+            [
+                "JOB_NAME",
+                "KAGGLE_USERNAME",
+                "KAGGLE_KEY",
+                "GLUE_READ_PATH",
+                "GLUE_WRITE_PATH",
+                "KAGGLE_PATH",
+            ],
         )
         print("\nRunning Glue Online\n")
     except GlueArgumentError:
