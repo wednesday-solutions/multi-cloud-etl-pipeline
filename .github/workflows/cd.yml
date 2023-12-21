@@ -40,3 +40,7 @@ jobs:
             - name: Upload Script file to S3
               run: aws s3 cp ./main.py "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/" --region ap-south-1
 
+            - name: Update parameters for the job
+              run: |
+                scripts/update-parameters.sh
+                scripts/update-job.sh
