@@ -22,12 +22,12 @@ jobs:
               with:
                 python-version: 3.9
 
-            - run: |
+            - name: Build App Wheel
+              run: |
                 pip install setuptools wheel
                 python3 setup.py bdist_wheel
 
-            # Step 1: Copy script to S3 bucket
-            - name: Copy script to S3 bucket
+            - name: Setup AWS cli & upload App Wheel to S3
               uses: jakejarvis/s3-sync-action@v0.5.0
               with:
                 args: --follow-symlinks
@@ -36,11 +36,10 @@ jobs:
                 DEST_DIR: $S3_SCRIPTS_PATH
                 AWS_S3_BUCKET: $S3_BUCKET_NAME
 
+            - name: Upload Scripts to S3
+              run: aws s3 cp jobs "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/" --recursive --region ap-south-1
 
-            - name: Upload Script file to S3
-              run: aws s3 cp ./main.py "s3://$S3_BUCKET_NAME/$S3_SCRIPTS_PATH/" --region ap-south-1
-
-            - name: Update parameters for the job
+            - name: Deploy Jobs on Glue
               run: |
                 scripts/update-parameters.sh
                 scripts/update-job.sh

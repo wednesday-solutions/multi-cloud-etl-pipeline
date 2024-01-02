@@ -1,0 +1,31 @@
+{
+    "JobName": "sample-name",
+    "JobUpdate": {
+      "Description": "",
+      "Role": "sample-role",
+      "ExecutionProperty": {
+        "MaxConcurrentRuns": 1
+      },
+      "Command": {
+        "Name": "glueetl",
+        "ScriptLocation": "sample-location",
+        "PythonVersion": "3"
+      },
+      "DefaultArguments": {
+        "--enable-glue-datacatalog": "true",
+        "--job-bookmark-option": "job-bookmark-enable",
+        "--TempDir": "s3://sample-bucket/scripts/temp/",
+        "--enable-metrics": "true",
+        "--enable-spark-ui": "true",
+        "--spark-event-logs-path": "s3://sample-bucket/Logs/UILogs/",
+        "--enable-job-insights": "true",
+        "--enable-continuous-cloudwatch-log": "true",
+        "--job-language": "python"
+      },
+      "MaxRetries": 0,
+      "Timeout": 10,
+      "WorkerType": "G.1X",
+      "NumberOfWorkers": 2,
+      "GlueVersion": "4.0"
+    }
+  }
