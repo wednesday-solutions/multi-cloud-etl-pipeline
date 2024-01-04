@@ -4,7 +4,7 @@ role="$2"
 kaggle_key="$3"
 kaggle_username="$4"
 
-source ./app/.custom-env
+source ./app/.custom_env
 
 job_names=$(aws glue get-jobs | jq -r '.Jobs | map(.Name)[]')
 
