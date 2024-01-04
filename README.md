@@ -26,17 +26,20 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 2. Give your s3, adlas & kaggle (optional) paths in the ```app/.custom-env``` file.
 
-3. Just run a Glue 4 docker conatiner & write your transformations in ```main.py``` file. Install dependancies using ```pip install -r requirements.txt```
+3. Just run a Glue 4 docker conatiner & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependancies using ```pip install -r requirements.txt```
 
-4. Run your scirpts in the docker container locally using ```spark-sumbit main.py```
+4. Run your scirpts in the docker container locally using ```spark-sumbit jobs/main.py```
 
 ## Deployemnt
 
-1. In your AWS Glue job pass these parameters with thier correct values: 
+1. In your your GitHub Actions Secrets, setup the following keys with their values:
     ```
-    JOB_NAME
-    KAGGLE_USERNAME
-    KAGGLE_KEY
+    AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY
+    S3_BUCKET_NAME
+    S3_SCRIPTS_PATH
+    AWS_REGION
+    AWS_GLUE_ROLE
     ```
     Rest all the key-value pairs in the ```app/.custom-env``` file are passed using aws cli using ```cd.yml``` file, so no need to pass them manually in the job.
 

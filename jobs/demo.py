@@ -24,7 +24,7 @@ kaggle_extraction = True
 
 write_path = env.get_write_path(databricks)
 
-# fmt: off
+# fmt: on
 # COMMAND ----------
 
 # Write all your transformations below:
