@@ -8,7 +8,7 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 - Azure Databricks can't be configured locally, you can only connect your local IDE to running cluster in databricks. Push your code in Github repo then make a workflow in databricks with URL of the repo & file.
 - For AWS Glue I'm setting up a local environment using the Docker image, then deploying it to AWS glue using github actions.
-- The "tasks.txt" file contents the details of transformations done in the main file3.
+- The "tasks.txt" file contents the details of transformations done in the main file.
 
 ## Requirements for Azure Databricks (for local connect only)
 - [Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/enable-workspaces) enabled workspace.
@@ -26,22 +26,22 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 2. Give your s3, adlas & kaggle (optional) paths in the ```app/.custom-env``` file.
 
-3. Just run a Glue 4 docker conatiner & write your transformations in ```main.py``` file. Install dependancies using ```pip install -r requirements.txt```
+3. Just run a Glue 4 docker conatiner & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependancies using ```pip install -r requirements.txt```
 
-4. Run your scirpts in the docker container locally using ```spark-sumbit main.py```
+4. Run your scirpts in the docker container locally using ```spark-sumbit jobs/main.py```
 
 ## Deployemnt
 
-1. In your AWS Glue job pass these parameters with thier correct values: 
+1. In your your GitHub Actions Secrets, setup the following keys with their values:
     ```
-    JOB_NAME
-    KAGGLE_USERNAME
-    KAGGLE_KEY
-    GLUE_READ_PATH
-    GLUE_WRITE_PATH
-    KAGGLE_PATH (keep blank if not extracting)
+    AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY
+    S3_BUCKET_NAME
+    S3_SCRIPTS_PATH
+    AWS_REGION
+    AWS_GLUE_ROLE
     ```
-    Rest everything is taken care of in ```cd.yml``` file.
+    Rest all the key-value pairs in the ```app/.custom-env``` file are passed using aws cli using ```cd.yml``` file, so no need to pass them manually in the job.
 
 2. For Azure Databricks, make a workflow with the link of your repo & main file. Pass the following parameters with their correct values:
 
