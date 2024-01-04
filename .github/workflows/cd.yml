@@ -14,6 +14,7 @@ jobs:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
           S3_SCRIPTS_PATH: ${{ secrets.S3_SCRIPTS_PATH }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_GLUE_ROLE: ${{ secrets.AWS_GLUE_ROLE}}
         steps:
             - uses: actions/checkout@v2
 
@@ -41,5 +42,4 @@ jobs:
 
             - name: Deploy Jobs on Glue
               run: |
-                scripts/update-parameters.sh
-                scripts/update-job.sh
+                automation/deploy_glue_job.sh $S3_BUCKET_NAME $AWS_GLUE_ROLE $KAGGLE_TOKEN $KAGGLE_USERNAME
