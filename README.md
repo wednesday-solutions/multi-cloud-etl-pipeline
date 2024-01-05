@@ -26,7 +26,7 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 2. Give your s3, adlas & kaggle (optional) paths in the ```app/.custom-env``` file.
 
-3. Just run a Glue 4 docker conatiner & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependancies using ```pip install -r requirements.txt```
+3. Just run a Glue 4 docker conatiner & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependancies using ```pip install -r requirements.txt```. Refer ```automation/init_docker_image.sh``` write your own path for the docker image.
 
 4. Run your scirpts in the docker container locally using ```spark-sumbit jobs/main.py```
 
