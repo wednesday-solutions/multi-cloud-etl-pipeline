@@ -22,7 +22,8 @@
         "--additional-python-modules": "python-dotenv,kaggle",
         "--enable-observability-metrics": "true",
         "--enable-continuous-cloudwatch-log": "true",
-        "--job-language": "python"
+        "--job-language": "python",
+        "--JOB_NAME": "online"
     },
     "MaxRetries": 0,
     "Timeout": 10,
