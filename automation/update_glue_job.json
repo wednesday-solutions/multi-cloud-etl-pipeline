@@ -20,8 +20,7 @@
         "--spark-event-logs-path": "s3://sample-bucket/Logs/UILogs/",
         "--enable-job-insights": "true",
         "--enable-continuous-cloudwatch-log": "true",
-        "--job-language": "python",
-        "--JOB_NAME": "online"
+        "--job-language": "python"
       },
       "MaxRetries": 0,
       "Timeout": 10,
