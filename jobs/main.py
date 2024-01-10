@@ -9,7 +9,7 @@ import pyspark.sql.functions as F
 import app.environment as env
 import app.spark_wrapper as sw
 
-load_dotenv("app/.custom_env")
+load_dotenv("../app/.custom_env")
 
 # COMMAND ----------
 

@@ -2,7 +2,7 @@
 from dotenv import load_dotenv
 import app.environment as env
 
-load_dotenv("app/.custom-env")
+load_dotenv("../app/.custom-env")
 
 # COMMAND ----------
 
