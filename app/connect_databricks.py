@@ -14,7 +14,7 @@ def create_mount(dbutils, container_name, mount_path):
                 f"fs.azure.account.key.{storage_name}.blob.core.windows.net": storage_key
             },
         )
-        print(f"{mount_path} Mount Successfull")
+        print(f"{mount_path} Mount Successful")
     else:
         dbutils.fs.refreshMounts()
         print(f"{mount_path} Already mounted")

@@ -196,7 +196,7 @@ print("Task 8 Done")
 
 # COMMAND ----------
 
-# finally writting the data in transformed container
+# finally writing the data in transformed container
 df.coalesce(1).write.csv(write_path + "final_data.csv", header=True, mode="overwrite")
 
 print("Execution Complete")

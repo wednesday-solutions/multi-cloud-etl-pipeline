@@ -12,11 +12,11 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 ## Requirements for Azure Databricks (for local connect only)
 - [Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/enable-workspaces) enabled workspace.
-- [Databricks Connect](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-connect/python/install) configured on local machine. Runing cluster.
+- [Databricks Connect](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-connect/python/install) configured on local machine. Running cluster.
 
 ## Requirements for AWS Glue (local setup)
 
-- For Unix-based systems you can refer: [Data Enginnering Onboarding Starter Setup](https://github.com/wednesday-solutions/Data-Engineering-Onboarding-Starter#setup)
+- For Unix-based systems you can refer: [Data Engineering Onboarding Starter Setup](https://github.com/wednesday-solutions/Data-Engineering-Onboarding-Starter#setup)
 
 - For Windows-based systems you can refer: [AWS Glue Developing using a Docker image](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html#develop-local-docker-image)
 
@@ -24,13 +24,13 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 1. Clone this repo in your own repo.
 
-2. Give your s3, adlas & kaggle (optional) paths in the ```app/.custom-env``` file.
+2. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom-env``` file.
 
-3. Just run a Glue 4 docker conatiner & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependancies using ```pip install -r requirements.txt```. Refer ```automation/init_docker_image.sh``` write your own path for the docker image.
+3. Just run a Glue 4 docker container & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependencies using ```pip install -r requirements.txt```. Refer ```automation/init_docker_image.sh``` write your own path for the docker image.
 
-4. Run your scirpts in the docker container locally using ```spark-sumbit jobs/main.py```
+4. Run your scripts in the docker container locally using ```spark-submit jobs/main.py```
 
-## Deployemnt
+## Deployment
 
 1. In your your GitHub Actions Secrets, setup the following keys with their values:
     ```
@@ -54,7 +54,7 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 ## Documentation
 
-[Multi-cloud Pipeline Documnentation](https://docs.google.com/document/d/1npCpT_FIpw7ZuxAzQrEH3IsPKCDt7behmF-6VjrSFoQ/edit?usp=sharing)
+[Multi-cloud Pipeline Documentation](https://docs.google.com/document/d/1npCpT_FIpw7ZuxAzQrEH3IsPKCDt7behmF-6VjrSFoQ/edit?usp=sharing)
 
 ## References
 
@@ -67,4 +67,4 @@ To run tests in the root of the directory use:
     coverage run --source=app -m unittest discover -s tests
     coverage report
 
-Note that awsglue libraries are not availabe to download, so use AWS Glue 4 Docker container.
+Note that AWS Glue libraries are not available to download, so use AWS Glue 4 Docker container.
