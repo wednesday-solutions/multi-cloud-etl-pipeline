@@ -25,6 +25,7 @@ To run the same ETL code in multiple cloud services based on your preference, th
 1. Clone this repo in your own repo. For Windows recommend use WSL.
 
 2. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. Make ```.evn``` file in the root folder for local Docker Glue to use.
+Make sure to pass KAGGLE_KEY & KAGGLE_USERNAME values if you are going to use Kaggle. Else make the kaggle_extraction flag as False.
 
 3. Run ```automation/init_docker_image.sh``` passing your aws credential location & project root location. If you are using Windows Powershell or CommandPrompt then run the commands manually by copy-pasting.
 
