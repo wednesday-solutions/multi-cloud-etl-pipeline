@@ -22,13 +22,15 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 ## Steps
 
-1. Clone this repo in your own repo.
+1. Clone this repo in your own repo. For Windows recommend use WSL.
 
-2. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom-env``` file.
+2. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. Make ```.evn``` file in the root folder for local Docker Glue to use.
 
-3. Just run a Glue 4 docker container & write your transformations in ```jobs``` folder. Refer ```demo.py``` file. Install dependencies using ```pip install -r requirements.txt```. Refer ```automation/init_docker_image.sh``` write your own path for the docker image.
+3. Run ```automation/init_docker_image.sh``` passing your aws credential location & project root location. If you are using Windows Powershell or CommandPrompt then run the commands manually by copy-pasting.
 
-4. Run your scripts in the docker container locally using ```spark-submit jobs/main.py```
+4. Write your jobs in the ```jobs``` folder. Refer ```demo.py``` file. One example is the ```jobs/main.py``` file.
+
+5. Check your setup is correct, by running scripts in the docker container locally using ```spark-submit jobs/demo.py```. Make sure you see the "Execution Complete" statement printed.
 
 ## Deployment
 
@@ -41,7 +43,7 @@ To run the same ETL code in multiple cloud services based on your preference, th
     AWS_REGION
     AWS_GLUE_ROLE
     ```
-    Rest all the key-value pairs in the ```app/.custom-env``` file are passed using aws cli using ```cd.yml``` file, so no need to pass them manually in the job.
+    Rest all the key-value pairs that you wrote in your .env file, make sure you pass them using the ```automation/deploy_glue_jobs.sh``` file.
 
 2. For Azure Databricks, make a workflow with the link of your repo & main file. Pass the following parameters with their correct values:
 
