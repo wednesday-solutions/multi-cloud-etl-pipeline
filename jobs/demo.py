@@ -2,7 +2,7 @@
 from dotenv import load_dotenv
 import app.environment as env
 
-load_dotenv("app/.custom-env")
+load_dotenv("../app/.custom-env")
 
 # COMMAND ----------
 
@@ -18,7 +18,7 @@ else:
 # fmt: off
 
 # Keep this flag True if you want to extract data from kaggle, else False
-kaggle_extraction = True
+kaggle_extraction = False
 
 [employee, insurance, vendor] = env.get_data(databricks, kaggle_extraction, dbutils, spark) #pylint: disable=unbalanced-tuple-unpacking
 
@@ -28,3 +28,6 @@ write_path = env.get_write_path(databricks)
 # COMMAND ----------
 
 # Write all your transformations below:
+
+
+print("\nExecution Complete\n")
