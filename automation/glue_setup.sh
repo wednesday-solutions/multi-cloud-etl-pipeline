@@ -1,4 +1,4 @@
-echo "FIRST RUN TIME ESTIMATION: 30-45 MINS\nPlease do NOT exit"
+echo -e "FIRST RUN TIME ESTIMATION: 30-45 MINS\nPlease do NOT exit"
 
 export PROJECT_ROOT=$(pwd)
 
@@ -34,4 +34,4 @@ cp $AWS_GLUE_HOME/jarsv1/aws*.jar $SPARK_HOME/jars/
 cd $PROJECT_ROOT
 export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
 export PYTHONPATH=$PROJECT_ROOT
-echo "\nGLUE LOCAL SETUP COMPLETE"
+echo -e "\nGLUE LOCAL SETUP COMPLETE"
