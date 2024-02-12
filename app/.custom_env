@@ -1,4 +1,5 @@
-# this is my custom file for read & write path based on environment
+# this is env file for paths, read only on databricks
+# for local glue, make a similar one in root named as ".env"
 
 GLUE_READ_PATH="s3://glue-bucket-vighnesh/rawdata/"
 GLUE_WRITE_PATH="s3://glue-bucket-vighnesh/transformed/"
