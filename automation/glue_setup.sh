@@ -22,6 +22,11 @@ tar -xvf spark-3.1.1-amzn-0-bin-3.2.1-amzn-3.tgz
 ln -s spark-3.1.1-amzn-0-bin-3.2.1-amzn-3 spark
 export SPARK_HOME=$(pwd)/spark
 
+
+# Export Paths
+export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
+export PYTHONPATH=$PROJECT_ROOT
+
 # Download Glue ETL .jar files
 cd $AWS_GLUE_HOME
 chmod +x bin/glue-setup.sh
@@ -30,8 +35,6 @@ mvn install dependency:copy-dependencies
 cp $AWS_GLUE_HOME/jarsv1/AWSGlue*.jar $SPARK_HOME/jars/
 cp $AWS_GLUE_HOME/jarsv1/aws*.jar $SPARK_HOME/jars/
 
-# Export Paths
+# Setup Done
 cd $PROJECT_ROOT
-export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
-export PYTHONPATH=$PROJECT_ROOT
 echo -e "\nGLUE LOCAL SETUP COMPLETE"
