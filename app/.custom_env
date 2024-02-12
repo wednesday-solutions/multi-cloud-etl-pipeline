@@ -8,3 +8,5 @@ DATABRICKS_READ_PATH="/mnt/rawdata/"
 DATABRICKS_WRITE_PATH="/mnt/transformed/"
 
 KAGGLE_PATH="mastmustu/insurance-claims-fraud-data"
+
+# Give KAGGLE_KEY & KAGGLE_USERNAME Below

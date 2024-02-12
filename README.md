@@ -1,54 +1,58 @@
 # Multi-cloud ETL Pipeline
 
-## Table of Contents
-
 ## Objective
 
 To run the same ETL code in multiple cloud services based on your preference, thus saving time & to develop the ETL scripts for different environments & clouds. Currently supports Azure Databricks + AWS Glue
 
 ## Note
 
-- Azure Databricks can't be configured locally, I can only be connected to a local IDE to running cluster in databricks. Push your code in Github repo then make a workflow in databricks with URL of the repo & file.
+- Azure Databricks can't be configured locally, We can only be connect our local IDE to running cluster in databricks. Push your code in Github repo then make a workflow in databricks with URL of the repo & file.
 - For AWS Glue we will set up a local environment using glue Docker image, then deploying it to AWS glue using github actions.
 - The "tasks.txt" file contents the details of transformations done in the main file.
 
+## Pre-requisite
+
+1. [Python3.7 with PIP](https://www.python.org/downloads/)
+2. [Install Java 8](https://www.oracle.com/in/java/technologies/downloads/#java8-mac). Make sure to export JAVA_HOME. 
+Example: ```export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home```
+3. [AWS CLI configured locally](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+
 ## Quick Start
+
+1. Clone this repo _(for Windows use WSL)_.
+
+2. For Glue-local-setup, run:
 ```bash
-make setup
+    make setup-glue-local
 ```
 
-<!-- Delete this later -->
+3. Install Dependencies:
+```bash
+    make install
+```
 
-## Requirements for Azure Databricks (for local connect only)
-- [Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/enable-workspaces) enabled workspace.
-- [Databricks Connect](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-connect/python/install) configured on local machine. Running cluster.
+## Change Your Paths
 
-## Requirements for AWS Glue (local setup)
+1. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. This file will be used by Databricks.
 
-- For Unix-based systems you can refer: [Data Engineering Onboarding Starter Setup](https://github.com/wednesday-solutions/Data-Engineering-Onboarding-Starter#setup)
+2. Similarly we have to make ```.evn``` file in the root folder. This file will be used by local glue job. Run:
+```bash
+    make glue-demo-env
+```
+This command will copy your paths from in the ```.env``` file.
 
-- For Windows-based systems you can refer: [AWS Glue Developing using a Docker image](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html#develop-local-docker-image)
+3. _(Optional)_ If you want to extract from kaggle, give KAGGLE_KEY & KAGGLE_USERNAME in ```.evn``` file only. Note: Don't write any sensitive keys in ```app/.custom_env``` file.
 
+## Setup Check
+Finally check if everything is working correctly using:
+```bash
+    gluesparksubmit jobs/demo.py
+```
+Ensure "Execution Complete" is printed.
 
-<!-- Delete this later -->
+## Make New Jobs
 
-## Steps
-
-1. Clone this repo _(for Windows recommend use WSL)_.
-
-2. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. 
-
-
-3.Make ```.evn``` file in the root folder for local Docker Glue to use.
-Make sure to pass KAGGLE_KEY & KAGGLE_USERNAME values if you are going to use Kaggle. Else make the kaggle_extraction flag as False.
-
-4. Run ```automation/init_docker.sh``` passing your aws credential location & project root location. If you are using Windows Powershell or CommandPrompt then run the commands manually by copy-pasting.
-
-5. Write your jobs in the ```jobs``` folder. Refer ```demo.py``` file. One example is the ```jobs/main.py``` file.
-
-6. Check your setup is correct, by running scripts in the docker container locally using ```spark-submit jobs/demo.py```. Make sure you see the "Execution Complete" statement printed.
-
-## Documentation
+Write your jobs in the ```jobs``` folder. Refer ```demo.py``` file. One example is the ```jobs/main.py``` file.
 
 ## Deployment
 
@@ -79,10 +83,10 @@ Rest all the key-value pairs that you wrote in your .env file, make sure you pas
 To run tests & coverage report, run the following commands in the root folder of the project:
 
 ```bash
-    coverage run --source=app -m unittest discover -s tests
+    make test
 
     # To see the coverage report
-    coverage report
+    make coverage-report
 ```
 
 ## References
