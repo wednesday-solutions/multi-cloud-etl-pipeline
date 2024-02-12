@@ -2,7 +2,7 @@
 
 setup-glue-local:
 	chmod +x automation/glue_setup.sh
-	automation/glue_setup.sh
+	source automation/glue_setup.sh
 
 glue-demo-env:
 	cp app/.custom_env .env
