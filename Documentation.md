@@ -20,6 +20,7 @@ The `connect_databricks` module provides a function, `create_mount`, for mountin
     create_mount(dbutils, container_name, mount_path)
     ```
     **Description**:
+
     Creates a mount point for an Azure Data Lake Storage container within the Databricks environment. It checks if the mount point already exists and creates it if not.
 
     **Usage**:
@@ -28,11 +29,15 @@ The `connect_databricks` module provides a function, `create_mount`, for mountin
     ```
 
     **Parameters**:
+
     ```dbutils```: The Databricks Utilities client.
+
     ```container_name```: The name of the Azure Data Lake Storage container.
+
     ```mount_path```: The desired mount point within the Databricks environment.
 
     **Returns**:
+
     None
 
 
@@ -75,18 +80,23 @@ The `connect_glue` module provides a function, `init_glue`, for initializing a G
     init_glue()
     ```
     **Description**:
+
     Initializes a Glue context for AWS Glue jobs. Detects whether the job is running online or locally and sets up the necessary Spark context.
 
     **Usage**:
+
     ```python
     spark, args = init_glue()
     ```
 
     **Parameters**:
+
     None
 
     **Returns**:
+
     ```spark```: The Spark session for AWS Glue.
+
     ```args```: A dictionary containing resolved options, including JOB_NAME, KAGGLE_USERNAME, and KAGGLE_KEY.
 
 #### Example Usage:
@@ -120,15 +130,22 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     create_frame(sc: SparkSession, path: str) -> DataFrame
     ```
     **Description**:
+
     This function creates a PySpark DataFrame by reading a CSV file from the specified path. It infers the schema and considers the first row as the header.
+
     **Usage**:
     ```py
     df = create_frame(spark_session, "/path/to/csv/file.csv")
     ```
+
     **Parameters**:
+
     ```sc```: The SparkSession instance.
+
     ```path```: The path to the CSV file.
+
     **Returns**:
+
     ```df```: The PySpark DataFrame.
 
 2. 
@@ -136,6 +153,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     rename_columns(df: DataFrame, names: dict) -> DataFrame
     ```
     **Description**:
+
     This function renames columns of a PySpark DataFrame based on the provided dictionary of old and new column names.
 
     **Usage**:
@@ -144,10 +162,13 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```
 
     **Parameters**:
+
     ```df```: The PySpark DataFrame.
+
     ```names```: A dictionary where keys are old column names and values are new column names.
 
     **Returns**:
+
     ```df```: The PySpark DataFrame with renamed columns.
 
 3. 
@@ -155,18 +176,23 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     value_counts(df: DataFrame, column: str) -> DataFrame
     ```
     **Description**:
+
     This function computes the value counts for a specific column in a PySpark DataFrame and orders the results in descending order based on count.
 
     **Usage**:
+
         ```python
         counts_df = value_counts(existing_df, "target_column")
         ```
 
     **Parameters**:
+
     ```df```: The PySpark DataFrame.
+
     ```column```: The target column for which value counts are computed.
 
     **Returns**:
+
     ```df```: A PySpark DataFrame with two columns - the target column and its respective count, ordered by count in descending order.
 
 4. 
@@ -174,20 +200,27 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     make_window(partition: str, order: str, range_from: int, range_to: int) -> Window
     ```
     **Description**:
+
     This function creates a PySpark Window specification for advanced window operations. It allows users to define partitioning, ordering, and a range for window functions.
 
     **Usage**:
+
     ```py
     window_spec = make_window("partition_column", "order_column", -1, 1)
     ```
 
     **Parameters**:
+
     ```partition```: The column used for partitioning.
+
     ```order```: The column used for ordering within partitions.
+
     ```range_from```: The lower bound of the window range.
+
     ```range_to```: The upper bound of the window range.
 
     **Returns**:
+
     ```window_spec```: The PySpark Window specification.
 
 5. 
@@ -196,6 +229,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```
 
     **Description**:
+
     Renames specific columns in a PySpark DataFrame based on a predefined prefix. This function is customized for the mastmustu/insurance-claims-fraud-data dataset.
 
     **Usage**:
@@ -204,10 +238,13 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```
 
     **Parameters**:
+
     ```df```: PySpark DataFrame.
+
     ```prefix```: Prefix to be added to the column names.
 
     **Returns**:
+
     ```cleaned_df```: PySpark DataFrame with renamed columns.
 
 #### Example Usage:
@@ -253,17 +290,23 @@ The `environment` module provides functions for setting up and managing environm
     ```
     
     **Description**:
+
     Sets environment variables and initializes Spark sessions based on the provided parameters. For Databricks environments, it also creates mounts for rawdata and transformed data.
 
     **Usage**:
+
     spark = set_keys_get_spark(databricks, dbutils, spark)
 
     **Parameters**:
+
     `databricks`: Boolean indicating whether the environment is Databricks.
+
     `dbutils`: Databricks Utilities client.
+
     `spark`: Spark session.
 
     **Returns**:
+
     `spark`: Initialized Spark session.
 
 2. 
@@ -272,6 +315,7 @@ The `environment` module provides functions for setting up and managing environm
     ```
 
     **Description**:
+
     Retrieves a list of PySpark DataFrames from CSV files in the specified directory. The list is populated with DataFrames created using the spark_wrapper.create_frame function.
 
     **Usage**:
@@ -280,20 +324,24 @@ The `environment` module provides functions for setting up and managing environm
     ```
 
     **Parameters**:
+
     `databricks`: Boolean indicating whether the environment is Databricks.
+
     `spark`: Spark session.
+
     `directory_path`: Path to the directory containing CSV files.
 
     **Returns**:
-    ```py
-    df_list: List of PySpark DataFrames.
-    ```
+
+    `df_list`: List of PySpark DataFrames.
+
 3. 
     ```py
     get_read_path(databricks: bool) -> str
     ```
 
     **Description**:
+
     Retrieves the read path based on the environment. For Databricks, it reads from the DATABRICKS_READ_PATH environment variable; for Glue, it reads from the GLUE_READ_PATH environment variable.
 
     **Usage**:
@@ -302,9 +350,11 @@ The `environment` module provides functions for setting up and managing environm
     ```
 
     **Parameters**:
+
     `databricks`: Boolean indicating whether the environment is Databricks.
 
     **Returns**:
+
     `read_path`: Read path for data retrieval.
 
 4. 
@@ -313,15 +363,19 @@ The `environment` module provides functions for setting up and managing environm
     ```
 
     **Description**:
+
     Retrieves the write path based on the environment. For Databricks, it reads from the DATABRICKS_WRITE_PATH environment variable; for Glue, it reads from the GLUE_WRITE_PATH environment variable.
 
     **Usage**:
+
     write_path = get_write_path(databricks)
 
     **Parameters**:
+
     `databricks`: Boolean indicating whether the environment is Databricks.
 
     **Returns**:
+
     `write_path`: Write path for data storage.
 
 5. 
@@ -330,18 +384,26 @@ The `environment` module provides functions for setting up and managing environm
     ```
 
     **Description**:
+    
     Retrieves data from specified paths, optionally extracting data from Kaggle if kaggle_extraction is set to True.
 
     **Usage**:
+    ```py
     data = get_data(databricks, kaggle_extraction, dbutils, spark)
+    ```
 
     **Parameters**:
+
     `databricks`: Boolean indicating whether the environment is Databricks.
+
     `kaggle_extraction`: Boolean indicating whether to perform Kaggle data extraction.
+
     `dbutils`: Databricks Utilities client.
+
     `spark`: Spark session.
 
     **Returns**:
+
     `data`: List of PySpark DataFrames.
 
 #### Example Usage:
