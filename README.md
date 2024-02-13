@@ -125,7 +125,7 @@ To run tests & coverage report, run the following commands in the root folder of
 
 ## Documentation
 
-Go to Documentation: 
+Go to [Documentation](https://github.com/wednesday-solutions/multi-cloud-etl-pipeline/blob/mod/table-of-contents/Documentation.md#project-documentation)
 
 ## References
 
