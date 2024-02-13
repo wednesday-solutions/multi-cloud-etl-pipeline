@@ -2,7 +2,7 @@
 
 setup-glue-local:
 	chmod +x automation/glue_setup.sh
-	source automation/glue_setup.sh
+	. automation/glue_setup.sh $(SOURCE_FILE_PATH)
 
 glue-demo-env:
 	cp app/.custom_env .env
@@ -19,7 +19,7 @@ lint:
 test:
 	export KAGGLE_KEY=MOCKKEY
 	export KAGGLE_USERNAME=MOCKUSERNAME
-    coverage run --source=app -m unittest discover -s tests
+	coverage run --source=app -m unittest discover -s tests
 
 coverage-report:
 	coverage report

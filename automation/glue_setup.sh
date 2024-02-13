@@ -1,10 +1,15 @@
+# Parameter 1 --> Shell profile path
+SOURCE_FILE=$1
+echo $SOURCE_FILE
+
 echo -e "FIRST RUN TIME ESTIMATION: 30-45 MINS\nPlease do NOT exit"
 
 export PROJECT_ROOT=$(pwd)
 
-# Doing all the work in separate folder "libs"
-cd ..
-mkdir libs && cd libs
+# Doing all the work in separate folder "glue-libs"
+cd ~
+mkdir glue-libs
+cd glue-libs
 
 # Clone AWS Glue Python Lib
 git clone https://github.com/awslabs/aws-glue-libs.git
@@ -22,19 +27,25 @@ tar -xvf spark-3.1.1-amzn-0-bin-3.2.1-amzn-3.tgz
 ln -s spark-3.1.1-amzn-0-bin-3.2.1-amzn-3 spark
 export SPARK_HOME=$(pwd)/spark
 
-
-# Export Paths
+# Export Path
 export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
 export PYTHONPATH=$PROJECT_ROOT
 
 # Download Glue ETL .jar files
 cd $AWS_GLUE_HOME
 chmod +x bin/glue-setup.sh
-bin/glue-setup.sh
+./bin/glue-setup.sh
 mvn install dependency:copy-dependencies
 cp $AWS_GLUE_HOME/jarsv1/AWSGlue*.jar $SPARK_HOME/jars/
 cp $AWS_GLUE_HOME/jarsv1/aws*.jar $SPARK_HOME/jars/
 
-# Setup Done
+echo "export AWS_GLUE_HOME=$AWS_GLUE_HOME
+export MAVEN_HOME=$MAVEN_HOME
+export SPARK_HOME=$SPARK_HOME
+export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
+export PYTHONPATH=$PROJECT_ROOT" >> $SOURCE_FILE
+
+
 cd $PROJECT_ROOT
+
 echo -e "\nGLUE LOCAL SETUP COMPLETE"

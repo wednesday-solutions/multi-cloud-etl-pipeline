@@ -23,10 +23,24 @@ Example: ```export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/
 
 2. For Glue-local-setup, run:
 ```bash
-    make setup-glue-local
+    # If default SHELL is zsh use
+    make setup-glue-local SOURCE_FILE_PATH=~/.zshrc
+
+    # If default SHELL is bash use
+    make setup-glue-local SOURCE_FILE_PATH=~/.bashrc
 ```
 
-3. Install Dependencies:
+3. Source SHELL profile using:
+
+```bash
+    # For zsh
+    source ~/.zshrc
+
+    # For bash
+    source ~/.bashrc
+```
+
+4. Install Dependencies:
 ```bash
     make install
 ```
