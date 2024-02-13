@@ -137,13 +137,16 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```
     **Description**:
     This function renames columns of a PySpark DataFrame based on the provided dictionary of old and new column names.
+
     **Usage**:
     ```py
     new_df = rename_columns(existing_df, {"old_name": "new_name", "another_old_name": "another_new_name"})
     ```
+
     **Parameters**:
     ```df```: The PySpark DataFrame.
     ```names```: A dictionary where keys are old column names and values are new column names.
+
     **Returns**:
     ```df```: The PySpark DataFrame with renamed columns.
 
@@ -153,13 +156,16 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```
     **Description**:
     This function computes the value counts for a specific column in a PySpark DataFrame and orders the results in descending order based on count.
+
     **Usage**:
         ```python
         counts_df = value_counts(existing_df, "target_column")
         ```
-        **Parameters**:
+
+    **Parameters**:
     ```df```: The PySpark DataFrame.
     ```column```: The target column for which value counts are computed.
+
     **Returns**:
     ```df```: A PySpark DataFrame with two columns - the target column and its respective count, ordered by count in descending order.
 
@@ -180,6 +186,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```order```: The column used for ordering within partitions.
     ```range_from```: The lower bound of the window range.
     ```range_to```: The upper bound of the window range.
+
     **Returns**:
     ```window_spec```: The PySpark Window specification.
 
@@ -238,7 +245,7 @@ Review the PySpark documentation for additional details on advanced window opera
 #### Overview:
 The `environment` module provides functions for setting up and managing environment variables, obtaining Spark sessions, and retrieving data from specified paths. This module is designed to support both Databricks and local environments.
 
-Module Components:
+#### Module Components:
 
 1. 
     ```py
@@ -255,6 +262,7 @@ Module Components:
     `databricks`: Boolean indicating whether the environment is Databricks.
     `dbutils`: Databricks Utilities client.
     `spark`: Spark session.
+
     **Returns**:
     `spark`: Initialized Spark session.
 
@@ -293,7 +301,6 @@ Module Components:
     read_path = get_read_path(databricks)
     ```
 
-
     **Parameters**:
     `databricks`: Boolean indicating whether the environment is Databricks.
 
@@ -328,7 +335,6 @@ Module Components:
     **Usage**:
     data = get_data(databricks, kaggle_extraction, dbutils, spark)
 
-
     **Parameters**:
     `databricks`: Boolean indicating whether the environment is Databricks.
     `kaggle_extraction`: Boolean indicating whether to perform Kaggle data extraction.
@@ -353,9 +359,7 @@ set_keys_get_spark(databricks=True, dbutils=dbutils, spark=spark)
 data_frames = get_data(databricks=True, kaggle_extraction=True, dbutils=dbutils, spark=spark)
 ```
 
-
 #### Notes:
 Ensure that environment variables and paths are correctly configured before using these functions.
 For Databricks environments, make sure to set the required widgets using dbutils.widgets.
 Review the PySpark documentation for additional details on working with Spark sessions and DataFrames.
-
