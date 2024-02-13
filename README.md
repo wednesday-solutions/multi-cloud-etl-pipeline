@@ -1,73 +1,115 @@
 # Multi-cloud ETL Pipeline
 
-## Main Objective
+## Objective
 
-To run the same ETL code in multiple cloud services based on your preference, thus saving time & to develop the ETL scripts for different environments & clouds. Currently supports Azure Databricks + AWS Glue
+- To run the same ETL code in multiple cloud services based on your preference, thus saving time.
+- To develop ETL scripts for different environments and clouds.
 
 ## Note
 
-- Azure Databricks can't be configured locally, you can only connect your local IDE to running cluster in databricks. Push your code in Github repo then make a workflow in databricks with URL of the repo & file.
-- For AWS Glue I'm setting up a local environment using the Docker image, then deploying it to AWS glue using github actions.
-- The "tasks.txt" file contents the details of transformations done in the main file.
+- This repository currently supports Azure Databricks + AWS Glue.
+- Azure Databricks can't be configured locally, We can only connect our local IDE to running cluster in databricks. It works by pushing code in a Github repository then adding a workflow in databricks with URL of the repo & file.
+- For AWS Glue we will set up a local environment using glue Docker image, then deploying it to AWS glue using github actions.
+- The "tasks.txt" file contains the details of transformations done in the main file.
 
-## Requirements for Azure Databricks (for local connect only)
-- [Unity Catalog](https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/enable-workspaces) enabled workspace.
-- [Databricks Connect](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-connect/python/install) configured on local machine. Running cluster.
+## Pre-requisite
 
-## Requirements for AWS Glue (local setup)
+1. [Python3.7 with PIP](https://www.python.org/downloads/)
+2. [AWS CLI configured locally](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+3. [Install Java 8](https://www.oracle.com/in/java/technologies/downloads/#java8-mac).
+    ```bash
+    # Make sure to export JAVA_HOME like this:
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home
+    ```
 
-- For Unix-based systems you can refer: [Data Engineering Onboarding Starter Setup](https://github.com/wednesday-solutions/Data-Engineering-Onboarding-Starter#setup)
 
-- For Windows-based systems you can refer: [AWS Glue Developing using a Docker image](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html#develop-local-docker-image)
+## Quick Start
 
-## Steps
+1. Clone this repo _(for Windows use WSL)_.
 
-1. Clone this repo in your own repo. For Windows recommend use WSL.
+2. For setting up required libraries and packages locally, run:
+```bash
+    # If default SHELL is zsh use
+    make setup-glue-local SOURCE_FILE_PATH=~/.zshrc
 
-2. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. Make ```.evn``` file in the root folder for local Docker Glue to use.
-Make sure to pass KAGGLE_KEY & KAGGLE_USERNAME values if you are going to use Kaggle. Else make the kaggle_extraction flag as False.
+    # If default SHELL is bash use
+    make setup-glue-local SOURCE_FILE_PATH=~/.bashrc
+```
 
-3. Run ```automation/init_docker.sh``` passing your aws credential location & project root location. If you are using Windows Powershell or CommandPrompt then run the commands manually by copy-pasting.
+3. Source SHELL profile using:
 
-4. Write your jobs in the ```jobs``` folder. Refer ```demo.py``` file. One example is the ```jobs/main.py``` file.
+```bash
+    # For zsh
+    source ~/.zshrc
 
-5. Check your setup is correct, by running scripts in the docker container locally using ```spark-submit jobs/demo.py```. Make sure you see the "Execution Complete" statement printed.
+    # For bash
+    source ~/.bashrc
+```
+
+4. Install Dependencies:
+```bash
+    make install
+```
+
+## Change Your Paths
+
+1. Enter your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. This file will be used by Databricks.
+
+2. Similarly, we'll make ```.evn``` file in the root folder. This file will be used by local glue job. To create the required files run:
+```bash
+    make glue-demo-env
+```
+This command will copy your paths from in the ```.env``` file.
+
+3. _(Optional)_ If you want to extract from kaggle, enter KAGGLE_KEY & KAGGLE_USERNAME in ```.evn``` file only. Note: Don't enter any sensitive keys in ```app/.custom_env``` file.
+
+## Setup Check
+Finally, check if everything is working correctly by running:
+```bash
+    gluesparksubmit jobs/demo.py
+```
+Ensure "Execution Complete" is printed.
+
+## Make New Jobs
+
+Write your jobs in the ```jobs``` folder. Refer ```demo.py``` file. One example is the ```jobs/main.py``` file.
 
 ## Deployment
 
-1. In your your GitHub Actions Secrets, setup the following keys with their values:
-    ```
+1. Set up a Github action for AWS Glue. Make sure to pass the following secrets in your repository:
+
+```
     AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY
     S3_BUCKET_NAME
     S3_SCRIPTS_PATH
     AWS_REGION
     AWS_GLUE_ROLE
-    ```
-    Rest all the key-value pairs that you wrote in your .env file, make sure you pass them using the ```automation/deploy_glue_jobs.sh``` file.
+```
 
-2. For Azure Databricks, make a workflow with the link of your repo & main file. Pass the following parameters with their correct values:
+Rest all the key-value pairs that entered in the `.env` file. make sure to pass them using `automation/deploy_glue_jobs.sh` file.
 
-    ```
+2. For Azure Databricks, make a workflow with the link to your repo & main file. Pass the following parameters with their correct values:
+
+```
     kaggle_username
     kaggle_token
     storage_account_name
     datalake_access_key
-    ```
+```
 
-## Documentation
+## Run Tests & Coverage Report
 
-[Multi-cloud Pipeline Documentation](https://docs.google.com/document/d/1npCpT_FIpw7ZuxAzQrEH3IsPKCDt7behmF-6VjrSFoQ/edit?usp=sharing)
+To run tests & coverage report, run the following commands in the root folder of the project:
+
+```bash
+    make test
+
+    # To see the coverage report
+    make coverage-report
+```
 
 ## References
 
 [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
 
-## Run Tests & Coverage Report
-
-To run tests in the root of the directory use:
-
-    coverage run --source=app -m unittest discover -s tests
-    coverage report
-
-Note that AWS Glue libraries are not available to download, so use AWS Glue 4 Docker container.
