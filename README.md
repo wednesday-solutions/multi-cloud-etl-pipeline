@@ -14,7 +14,10 @@ To run the same ETL code in multiple cloud services based on your preference, th
 
 1. [Python3.7 with PIP](https://www.python.org/downloads/)
 2. [Install Java 8](https://www.oracle.com/in/java/technologies/downloads/#java8-mac). Make sure to export JAVA_HOME. 
-Example: ```export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home```
+Example: 
+```bash
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home
+```
 3. [AWS CLI configured locally](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
 ## Quick Start
