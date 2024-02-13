@@ -15,12 +15,13 @@
 ## Pre-requisite
 
 1. [Python3.7 with PIP](https://www.python.org/downloads/)
-2. [Install Java 8](https://www.oracle.com/in/java/technologies/downloads/#java8-mac). Make sure to export JAVA_HOME. 
-Example: 
-```bash
+2. [AWS CLI configured locally](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+3. [Install Java 8](https://www.oracle.com/in/java/technologies/downloads/#java8-mac).
+    ```bash
+    # Make sure to export JAVA_HOME like this:
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_261.jdk/Contents/Home
-```
-3. [AWS CLI configured locally](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+    ```
+
 
 ## Quick Start
 
