@@ -2,13 +2,15 @@
 
 ## Objective
 
-To run the same ETL code in multiple cloud services based on your preference, thus saving time & to develop the ETL scripts for different environments & clouds. Currently supports Azure Databricks + AWS Glue
+- To run the same ETL code in multiple cloud services based on your preference, thus saving time.
+- To develop ETL scripts for different environments and clouds.
 
 ## Note
 
-- Azure Databricks can't be configured locally, We can only be connect our local IDE to running cluster in databricks. Push your code in Github repo then make a workflow in databricks with URL of the repo & file.
+- This repository currently supports Azure Databricks + AWS Glue.
+- Azure Databricks can't be configured locally, We can only connect our local IDE to running cluster in databricks. It works by pushing code in a Github repository then adding a workflow in databricks with URL of the repo & file.
 - For AWS Glue we will set up a local environment using glue Docker image, then deploying it to AWS glue using github actions.
-- The "tasks.txt" file contents the details of transformations done in the main file.
+- The "tasks.txt" file contains the details of transformations done in the main file.
 
 ## Pre-requisite
 
@@ -24,7 +26,7 @@ Example:
 
 1. Clone this repo _(for Windows use WSL)_.
 
-2. For Glue-local-setup, run:
+2. For setting up required libraries and packages locally, run:
 ```bash
     # If default SHELL is zsh use
     make setup-glue-local SOURCE_FILE_PATH=~/.zshrc
@@ -50,18 +52,18 @@ Example:
 
 ## Change Your Paths
 
-1. Give your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. This file will be used by Databricks.
+1. Enter your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. This file will be used by Databricks.
 
-2. Similarly we have to make ```.evn``` file in the root folder. This file will be used by local glue job. Run:
+2. Similarly, we'll make ```.evn``` file in the root folder. This file will be used by local glue job. To create the required files run:
 ```bash
     make glue-demo-env
 ```
 This command will copy your paths from in the ```.env``` file.
 
-3. _(Optional)_ If you want to extract from kaggle, give KAGGLE_KEY & KAGGLE_USERNAME in ```.evn``` file only. Note: Don't write any sensitive keys in ```app/.custom_env``` file.
+3. _(Optional)_ If you want to extract from kaggle, enter KAGGLE_KEY & KAGGLE_USERNAME in ```.evn``` file only. Note: Don't enter any sensitive keys in ```app/.custom_env``` file.
 
 ## Setup Check
-Finally check if everything is working correctly using:
+Finally, check if everything is working correctly by running:
 ```bash
     gluesparksubmit jobs/demo.py
 ```
@@ -84,9 +86,9 @@ Write your jobs in the ```jobs``` folder. Refer ```demo.py``` file. One example 
     AWS_GLUE_ROLE
 ```
 
-Rest all the key-value pairs that you wrote in your .env file, make sure you pass them using the `automation/deploy_glue_jobs.sh` file.
+Rest all the key-value pairs that entered in the `.env` file. make sure to pass them using `automation/deploy_glue_jobs.sh` file.
 
-2. For Azure Databricks, make a workflow with the link of your repo & main file. Pass the following parameters with their correct values:
+2. For Azure Databricks, make a workflow with the link to your repo & main file. Pass the following parameters with their correct values:
 
 ```
     kaggle_username
