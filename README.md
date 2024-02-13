@@ -23,7 +23,7 @@
 
 - This repository currently supports Azure Databricks + AWS Glue.
 - Azure Databricks can't be configured locally, We can only connect our local IDE to running cluster in databricks. It works by pushing code in a Github repository then adding a workflow in databricks with URL of the repo & file.
-- For AWS Glue we will set up a local environment using glue Docker image, then deploying it to AWS glue using github actions.
+- For AWS Glue we will set up a local environment using Glue Docker image or shell script, then deploying it to AWS glue using github actions.
 - The "tasks.txt" file contains the details of transformations done in the main file.
 
 ## Pre-requisite
