@@ -130,7 +130,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```path```: The path to the CSV file.
     **Returns**:
     ```df```: The PySpark DataFrame.
-<br>
+
 2. 
     ```py
     rename_columns(df: DataFrame, names: dict) -> DataFrame
@@ -146,7 +146,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```names```: A dictionary where keys are old column names and values are new column names.
     **Returns**:
     ```df```: The PySpark DataFrame with renamed columns.
-<br>
+
 3. 
     ```py
     value_counts(df: DataFrame, column: str) -> DataFrame
@@ -162,7 +162,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```column```: The target column for which value counts are computed.
     **Returns**:
     ```df```: A PySpark DataFrame with two columns - the target column and its respective count, ordered by count in descending order.
-<br>
+
 4. 
     ```py
     make_window(partition: str, order: str, range_from: int, range_to: int) -> Window
@@ -182,7 +182,7 @@ The SparkWrapper module provides a set of utility functions for working with PyS
     ```range_to```: The upper bound of the window range.
     **Returns**:
     ```window_spec```: The PySpark Window specification.
-<br>
+
 5. 
     ```py
     rename_same_columns(df: DataFrame, prefix: str) -> DataFrame
@@ -257,7 +257,7 @@ Module Components:
     `spark`: Spark session.
     **Returns**:
     `spark`: Initialized Spark session.
-<br>
+
 2. 
     ```py
     get_dataframes(databricks: bool, spark, directory_path: str) -> List[DataFrame]
@@ -299,7 +299,7 @@ Module Components:
 
     **Returns**:
     `read_path`: Read path for data retrieval.
-<br>
+
 4. 
     ```py
     get_write_path(databricks: bool) -> str
