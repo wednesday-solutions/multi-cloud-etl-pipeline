@@ -1,13 +1,29 @@
 # Project Documentation
 
-[Back to Readme](https://github.com/wednesday-solutions/multi-cloud-etl-pipeline?tab=readme-ov-file#multi-cloud-etl-pipeline)
+[Back to Readme](README.md#table-of-contents)
 
 ## Table of Contents
 
 * [connect_databricks](#connect_databricks)
+    * [Overview](#overview)
+    * [Module Components](#module-components)
+    * [Example Usage](#example-usage)
+    * [Notes](#notes)
 * [connect_glue](#connect_glue)
+    * [Overview](#overview-1)
+    * [Module Components](#module-components-1)
+    * [Example Usage](#example-usage-1)
+    * [Notes](#notes-1)
 * [spark_wrapper](#spark_wrapper)
+    * [Overview](#overview-2)
+    * [Module Components](#module-components-2)
+    * [Example Usage](#example-usage-2)
+    * [Notes](#notes-2)
 * [environment](#environment)
+    * [Overview](#overview-3)
+    * [Module Components](#module-components-3)
+    * [Example Usage](#example-usage-3)
+    * [Notes](#notes-3)
 
 ## connect_databricks
 

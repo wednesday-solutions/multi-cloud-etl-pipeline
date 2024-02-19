@@ -5,13 +5,14 @@
 * [Objective](#objective)
 * [Note](#note)
 * [Pre-requisite](#pre-requisite)
-* [Quick Start](#quick-start)
-* [Change your Paths](#change-your-paths)
-* [Setup Check](#setup-check)
+* [Set-up](#quick-start)
+    * [Quick Start](#quick-start)
+    * [Change your Paths](#change-your-paths)
+    * [Setup Check](#setup-check)
 * [Make New Jobs](#setup-check)
 * [Deployment](#deployment)
 * [Run Test & Coverage](#run-tests-&-coverage-report)
-* [Documentation](#documentation)
+* [Documentation](Documentation.md#project-documentation)
 * [Reference](#reference)
 
 ## Objective
@@ -122,10 +123,6 @@ To run tests & coverage report, run the following commands in the root folder of
     # To see the coverage report
     make coverage-report
 ```
-
-## Documentation
-
-Go to [Documentation](https://github.com/wednesday-solutions/multi-cloud-etl-pipeline/blob/mod/table-of-contents/Documentation.md#project-documentation)
 
 ## References
 
