@@ -4,4 +4,3 @@ coverage
 python-dotenv
 kaggle~=1.5.16
 pre-commit
-pyspark==3.3.0
