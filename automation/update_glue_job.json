@@ -19,6 +19,7 @@
         "--enable-spark-ui": "true",
         "--spark-event-logs-path": "s3://sample-bucket/Logs/UILogs/",
         "--enable-job-insights": "true",
+        "--additional-python-modules": "python-dotenv,kaggle",
         "--enable-continuous-cloudwatch-log": "true",
         "--job-language": "python"
       },
