@@ -9,8 +9,8 @@ import pyspark.sql.functions as F
 import app.environment as env
 import app.spark_wrapper as sw
 
-load_dotenv("../app/.custom_env") # Loading env for databricks
-load_dotenv() # Loading env for glue
+load_dotenv("../app/.custom_env")  # Loading env for databricks
+load_dotenv()  # Loading env for glue
 
 # COMMAND ----------
 

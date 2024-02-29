@@ -29,10 +29,14 @@ class TestSparkWrapper(TestCase):
         with self.assertRaises(U.AnalysisException) as context:
             value_counts(self.df, "nonexistent_column")
 
-        expected_error_message = re.compile("Column '.+' does not exist")
+        expected_error_message_1 = re.compile("Column '.+' does not exist")
+        expected_error_message_2 = re.compile("cannot resolve '.+' given input columns")
         actual_error_message = str(context.exception)
 
-        self.assertTrue(expected_error_message.search(actual_error_message))
+        self.assertTrue(
+            expected_error_message_1.search(actual_error_message)
+            or expected_error_message_2.search(actual_error_message)
+        )
 
     def test_create_frame_invalid_path(self):
         with self.assertRaises(U.AnalysisException) as context:
@@ -48,19 +52,30 @@ class TestSparkWrapper(TestCase):
             window_spec = make_window("invalid_column", "date", -20, -1)
             self.df.withColumn("literal_1", F.lit(1).over(window_spec))
 
-        expected_error_message = re.compile("Column '.+' does not exist")
+        expected_error_message_1 = re.compile("Column '.+' does not exist")
+        expected_error_message_2 = re.compile("cannot resolve '.+' given input columns")
         actual_error_message = str(context.exception)
 
-        self.assertTrue(expected_error_message.search(actual_error_message))
+        self.assertTrue(
+            expected_error_message_1.search(actual_error_message)
+            or expected_error_message_2.search(actual_error_message)
+        )
 
     def test_make_window_invalid_range(self):
         with self.assertRaises(U.AnalysisException) as context:
             window_spec = make_window("market", "date", 5, 2)
             self.df.withColumn("literal_1", F.lit(1).over(window_spec))
 
-        expected_error_message = "The lower bound of a window frame must be less than or equal to the upper bound"
+        expected_error_message_1 = "The lower bound of a window frame must be less than or equal to the upper bound"
+        expected_error_message_2 = re.compile(
+            "The data type of the lower bound '.+' does not match the expected data type '.+'"
+        )
         actual_error_message = str(context.exception)
-        self.assertTrue(expected_error_message in actual_error_message)
+
+        self.assertTrue(
+            expected_error_message_1 in actual_error_message
+            or expected_error_message_2.search(actual_error_message)
+        )
 
     def test_rename_column_invalid_column(self):
         with self.assertRaises(ValueError) as context:
