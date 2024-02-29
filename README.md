@@ -14,6 +14,7 @@
 * [Run Test & Coverage](#run-tests-&-coverage-report)
 * [Documentation](Documentation.md#project-documentation)
 * [Reference](#reference)
+* [Common Errors](#common-errors)
 
 ## Objective
 
@@ -128,3 +129,6 @@ To run tests & coverage report, run the following commands in the root folder of
 
 [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
 
+## Common Errors
+
+['sparkDriver' failed after 16 retries](https://stackoverflow.com/questions/52133731/how-to-solve-cant-assign-requested-address-service-sparkdriver-failed-after)
