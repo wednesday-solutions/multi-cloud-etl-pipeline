@@ -5,3 +5,4 @@ temp
 htmlcov
 .vscode
 *.ipynb
+venv
