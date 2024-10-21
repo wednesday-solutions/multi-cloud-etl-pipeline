@@ -9,7 +9,7 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: vighneshwed/glue4:latest
+        container: vighneshwed/glue4:testing
         
         steps:
             - name: Checkout repository
