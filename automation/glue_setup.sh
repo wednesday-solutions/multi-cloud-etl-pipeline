@@ -29,7 +29,7 @@ export SPARK_HOME=$(pwd)/spark
 
 # Export Path
 export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
-export PYTHONPATH=$PROJECT_ROOT
+export PYTHONPATH=$PROJECT_ROOT:$AWS_GLUE_HOME/PyGlue.zip:$SPARK_HOME/python/lib/py4j-0.10.9-src.zip:$SPARK_HOME/python/
 
 # Download Glue ETL .jar files
 cd $AWS_GLUE_HOME
@@ -39,11 +39,13 @@ mvn install dependency:copy-dependencies
 cp $AWS_GLUE_HOME/jarsv1/AWSGlue*.jar $SPARK_HOME/jars/
 cp $AWS_GLUE_HOME/jarsv1/aws*.jar $SPARK_HOME/jars/
 
-echo "export AWS_GLUE_HOME=$AWS_GLUE_HOME
+echo "
+export AWS_GLUE_HOME=$AWS_GLUE_HOME
 export MAVEN_HOME=$MAVEN_HOME
 export SPARK_HOME=$SPARK_HOME
 export PATH=$PATH:$SPARK_HOME/bin:$MAVEN_HOME/bin:$AWS_GLUE_HOME/bin
-export PYTHONPATH=$PROJECT_ROOT" >> $SOURCE_FILE
+export PYTHONPATH=$PROJECT_ROOT:$AWS_GLUE_HOME/PyGlue.zip:$SPARK_HOME/python/lib/py4j-0.10.9-src.zip:$SPARK_HOME/python/
+" >> $SOURCE_FILE
 
 
 cd $PROJECT_ROOT

@@ -2,8 +2,8 @@
 from dotenv import load_dotenv
 import app.environment as env
 
-load_dotenv("../app/.custom_env") # Loading env for databricks
-load_dotenv() # Loading env for glue
+load_dotenv("../app/.custom_env")  # Loading env for databricks
+load_dotenv()  # Loading env for glue
 
 # COMMAND ----------
 
