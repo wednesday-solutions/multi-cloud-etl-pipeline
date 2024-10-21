@@ -10,7 +10,7 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: vighneshwed/glue4:testing
+        # container: vighneshwed/glue4:testing
         
         steps:
             - name: Checkout repository
@@ -20,6 +20,11 @@ jobs:
               run: |
                 python3 -m pip install --upgrade pip
                 pip3 install -r requirements.txt
+            
+            - name: Download & Install awsglue whl
+              run: |
+                curl -L -o aws_glue_libs-4.0.0-py3-none-any.whl "https://drive.google.com/uc?export=download&id=1PsgZZi_GQWh98t3XQtUY2CLJP1-avkWq"
+                pip3 install ./aws_glue_libs-4.0.0-py3-none-any.whl
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
