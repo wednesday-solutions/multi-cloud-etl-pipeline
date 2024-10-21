@@ -1,5 +1,5 @@
 mypy
-pylint
+pylint==3.0.3
 coverage
 python-dotenv
 kaggle~=1.5.16
