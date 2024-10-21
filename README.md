@@ -1,5 +1,21 @@
 # Multi-cloud ETL Pipeline
 
+## Table of Contents
+
+* [Objective](#objective)
+* [Note](#note)
+* [Pre-requisite](#pre-requisite)
+* [Set-up](#quick-start)
+    * [Quick Start](#quick-start)
+    * [Change your Paths](#change-your-paths)
+    * [Setup Check](#setup-check)
+* [Make New Jobs](#setup-check)
+* [Deployment](#deployment)
+* [Run Test & Coverage](#run-tests-&-coverage-report)
+* [Documentation](Documentation.md#project-documentation)
+* [Reference](#reference)
+* [Common Errors](#common-errors)
+
 ## Objective
 
 - To run the same ETL code in multiple cloud services based on your preference, thus saving time.
@@ -9,7 +25,7 @@
 
 - This repository currently supports Azure Databricks + AWS Glue.
 - Azure Databricks can't be configured locally, We can only connect our local IDE to running cluster in databricks. It works by pushing code in a Github repository then adding a workflow in databricks with URL of the repo & file.
-- For AWS Glue we will set up a local environment using glue Docker image, then deploying it to AWS glue using github actions.
+- For AWS Glue we will set up a local environment using Glue Docker image or shell script, then deploying it to AWS glue using github actions.
 - The "tasks.txt" file contains the details of transformations done in the main file.
 
 ## Pre-requisite
@@ -53,13 +69,13 @@
 
 ## Change Your Paths
 
-1. Enter your S3, ADLS & Kaggle (optional) paths in the ```app/.custom_env``` file for Databricks. This file will be used by Databricks.
+1. Enter your S3 & ADLS paths in the ```app/.custom_env``` file for Databricks. This file will be used by Databricks.
 
-2. Similarly, we'll make ```.evn``` file in the root folder. This file will be used by local glue job. To create the required files run:
+2. Similarly, we'll make ```.evn``` file in the root folder for Local Glue. To create the required file run:
 ```bash
     make glue-demo-env
 ```
-This command will copy your paths from in the ```.env``` file.
+This command will copy your paths from ```app/.custom_env``` to ```.env``` file.
 
 3. _(Optional)_ If you want to extract from kaggle, enter KAGGLE_KEY & KAGGLE_USERNAME in ```.evn``` file only. Note: Don't enter any sensitive keys in ```app/.custom_env``` file.
 
@@ -113,3 +129,6 @@ To run tests & coverage report, run the following commands in the root folder of
 
 [Glue Programming libraries](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html)
 
+## Common Errors
+
+['sparkDriver' failed after 16 retries](https://stackoverflow.com/questions/52133731/how-to-solve-cant-assign-requested-address-service-sparkdriver-failed-after)
