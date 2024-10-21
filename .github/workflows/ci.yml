@@ -9,16 +9,22 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: vighneshwed/glue4:latest
         
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4.2.1
+              uses: actions/checkout@v4
 
             - name: Install dependencies
               run: |
                 python3 -m pip install --upgrade pip
                 pip3 install -r requirements.txt
+
+            - name: Download & Install awsglue whl
+              run: |
+                curl -L -o aws_glue_libs-4.0.0-py3-none-any.whl "https://drive.google.com/uc?export=download&id=$WHL_GDRIVE_ID"
+                pip3 install ./aws_glue_libs-4.0.0-py3-none-any.whl
+              env:
+                WHL_GDRIVE_ID: ${{ secrets.WHL_GDRIVE_ID }}
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
