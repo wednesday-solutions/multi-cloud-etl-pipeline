@@ -21,10 +21,7 @@ jobs:
 
             - name: Download & Install awsglue whl
               run: |
-                curl -L -o aws_glue_libs-4.0.0-py3-none-any.whl "https://drive.google.com/uc?export=download&id=$WHL_GDRIVE_ID"
-                pip3 install ./aws_glue_libs-4.0.0-py3-none-any.whl
-              env:
-                WHL_GDRIVE_ID: ${{ secrets.WHL_GDRIVE_ID }}
+                pip3 install ./assets/aws_glue_libs-4.0.0-py3-none-any.whl
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
