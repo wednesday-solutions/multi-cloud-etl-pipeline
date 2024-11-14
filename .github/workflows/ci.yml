@@ -9,16 +9,19 @@ on:
 jobs:
     run-ci:
         runs-on: ubuntu-latest
-        container: vighneshwed/glue4:latest
         
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Install dependencies
               run: |
                 python3 -m pip install --upgrade pip
                 pip3 install -r requirements.txt
+
+            - name: Download & Install awsglue whl
+              run: |
+                pip3 install ./assets/aws_glue_libs-4.0.0-py3-none-any.whl
 
             - name: Type check
               run: mypy ./ --ignore-missing-imports
